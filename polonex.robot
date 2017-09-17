@@ -90,113 +90,83 @@ Login
   [return]  ${tender_data}
 
 Створити тендер
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} ==  username
-  ...      ${ARGUMENTS[1]} ==  tender_data
+  [Arguments]  ${username}  ${tender_data}
+    Log  ${tender_data}
 
-    ${procurementmethodtype}=                Get From Dictionary         ${ARGUMENTS[1].data}                   procurementMethodType
-    ${title}=                                Get From Dictionary         ${ARGUMENTS[1].data}                   title
-    ${dgfID}=                                Get From Dictionary         ${ARGUMENTS[1].data}                   dgfID
-    ${dgfDecisionDate}=                      Get From Dictionary         ${ARGUMENTS[1].data}                   dgfDecisionDate
-    ${dgfDecisionID}=                        Get From Dictionary         ${ARGUMENTS[1].data}                   dgfDecisionID
-    ${tenderAttempts}=                       Get From Dictionary         ${ARGUMENTS[1].data}                   tenderAttempts
-    ${description}=                          Get From Dictionary         ${ARGUMENTS[1].data}                   description
-    ${auctionperiod_startdate}=              Get From Dictionary         ${ARGUMENTS[1].data.auctionPeriod}     startDate
-    ${minimalstep_amount}=                   Get From Dictionary         ${ARGUMENTS[1].data.minimalStep}       amount
-    ${minimalstep_currency}=                 Get From Dictionary         ${ARGUMENTS[1].data.minimalStep}       currency
-    ${value_amount}=                         Get From Dictionary         ${ARGUMENTS[1].data.value}             amount
-    ${value_currency}=                       Get From Dictionary         ${ARGUMENTS[1].data.value}             currency
-    ${value_valueaddedtaxincluded}=          Convert To String           ${ARGUMENTS[1].data.value.valueAddedTaxIncluded}
-    ${value_valueaddedtaxincluded}=          convert_polonex_string      ${value_valueaddedtaxincluded}
+    ${tender-title}                                     Get From Dictionary    ${tender_data.data}                                 title
+    ${tender-description}                               Get From Dictionary    ${tender_data.data}                                 description
+    ${tender-tenderID}                                  Get From Dictionary    ${tender_data.data}                                 tenderID
+    ${tender-procuringEntity-name}                      Get From Dictionary    ${tender_data.data.procuringEntity}                 name
+    ${tender-procuringEntity-identifier-scheme}         Get From Dictionary    ${tender_data.data.procuringEntity.identifier}      scheme
+    ${tender-procuringEntity-identifier-id}             Get From Dictionary    ${tender_data.data.procuringEntity.identifier}      id
+    ${tender-procuringEntity-identifier-legalName}      Get From Dictionary    ${tender_data.data.procuringEntity.identifier}      legalName
+    ${tender-procuringEntity-identifier-uri}            Get From Dictionary    ${tender_data.data.procuringEntity.identifier}      uri
+    ${tender-procuringEntity-address-streetAddress}     Get From Dictionary    ${tender_data.data.procuringEntity.address}         streetAddress
+    ${tender-procuringEntity-address-locality}          Get From Dictionary    ${tender_data.data.procuringEntity.address}         locality
+    ${tender-procuringEntity-address-region}            Get From Dictionary    ${tender_data.data.procuringEntity.address}         region
+    ${tender-procuringEntity-address-postalCode}        Get From Dictionary    ${tender_data.data.procuringEntity.address}         postalCode
+    ${tender-procuringEntity-address-countryName}       Get From Dictionary    ${tender_data.data.procuringEntity.address}         countryName
+    ${tender-procuringEntity-contactPoint-name}         Get From Dictionary    ${tender_data.data.procuringEntity.contactPoint}    name
+    ${tender-procuringEntity-contactPoint-email}        Get From Dictionary    ${tender_data.data.procuringEntity.contactPoint}    email
+    ${tender-procuringEntity-contactPoint-telephone}    Get From Dictionary    ${tender_data.data.procuringEntity.contactPoint}    telephone
+    ${tender-procuringEntity-contactPoint-faxNumber}    Get From Dictionary    ${tender_data.data.procuringEntity.contactPoint}    faxNumber
+    ${tender-procuringEntity-contactPoint-url}          Get From Dictionary    ${tender_data.data.procuringEntity.contactPoint}    url
+    ${tender-procuringEntity-kind}                      Get From Dictionary    ${tender_data.data.procuringEntity}                 kind
+    ${tender-value-amount}                              Get From Dictionary    ${tender_data.data.value}                           amount
+    ${tender-value-currency}                            Get From Dictionary    ${tender_data.data.value}                           currency
+    ${tender-value-valueAddedTaxIncluded}               Get From Dictionary    ${tender_data.data.value}                           valueAddedTaxIncluded
+    ${tender-guarantee-amount}                          Get From Dictionary    ${tender_data.data.guarantee}                       amount
+    ${tender-guarantee-currency}                        Get From Dictionary    ${tender_data.data.guarantee}                       currency
+    ${tender-minimalStep-amount}                        Get From Dictionary    ${tender_data.data.minimalStep}                     amount
+    ${tender-minimalStep-currency}                      Get From Dictionary    ${tender_data.data.minimalStep}                     currency
+    ${tender-minimalStep-valueAddedTaxIncluded}         Get From Dictionary    ${tender_data.data.minimalStep}                     valueAddedTaxIncluded
 
+    ${tender-value-amount}=           Convert To String    ${tender-value-amount}
+    ${tender-guarantee-amount}=       Convert To String    ${tender-guarantee-amount}
+    ${tender-minimalStep-amount}=     Convert To String    ${tender-minimalStep-amount}
+    ${tender-procuringEntity-kind}=   Convert To String    ${tender-procuringEntity-kind}
 
-    ${guarantee_amount}=                     Get From Dictionary         ${ARGUMENTS[1].data.guarantee}         amount
-
-    ${items}=                                Get From Dictionary         ${ARGUMENTS[1].data}                   items
-    ${item0}=                                Get From List               ${items}                               0
-    ${item_description}=                     Get From Dictionary         ${item0}                               description
-    ${classification_scheme}=                Get From Dictionary         ${item0.classification}                scheme
-    ${classification_description}=           Get From Dictionary         ${item0.classification}                description
-    ${classification_id}=                    Get From Dictionary         ${item0.classification}                id
-    ${deliveryaddress_postalcode}=           Get From Dictionary         ${item0.deliveryAddress}               postalCode
-    ${deliveryaddress_countryname}=          Get From Dictionary         ${item0.deliveryAddress}               countryName
-    ${deliveryaddress_streetaddress}=        Get From Dictionary         ${item0.deliveryAddress}               streetAddress
-    ${deliveryaddress_region}=               Get From Dictionary         ${item0.deliveryAddress}               region
-    ${deliveryaddress_locality}=             Get From Dictionary         ${item0.deliveryAddress}               locality
-    ${deliverydate_enddate}=                 Get From Dictionary         ${item0.deliveryDate}                  endDate
-    ${unit_code}=                            Get From Dictionary         ${item0.unit}                          code
-    ${unit_name}=                            Get From Dictionary         ${item0.unit}                          name
-    ${quantity}=                             Get From Dictionary         ${item0}                               quantity
-    ${deliverylocation_latitude}=            Get From Dictionary         ${item0.deliveryLocation}              latitude
-    ${deliverylocation_longitude}=           Get From Dictionary         ${item0.deliveryLocation}              longitude
-
-
-    ${procuringEntity}=                      Get From Dictionary         ${ARGUMENTS[1].data}                   procuringEntity
-
-    ${procuringEntity_address_countryName}=      Get From Dictionary     ${procuringEntity.address}            countryName
-    ${procuringEntity_address_locality}=         Get From Dictionary     ${procuringEntity.address}            locality
-    ${procuringEntity_address_postalCode}=       Get From Dictionary     ${procuringEntity.address}            postalCode
-    ${procuringEntity_address_region}=           Get From Dictionary     ${procuringEntity.address}            region
-    ${procuringEntity_address_streetAddress}=    Get From Dictionary     ${procuringEntity.address}            streetAddress
-    ${procuringEntity_contactPoint_name}=        Get From Dictionary     ${procuringEntity.contactPoint}       name
-    ${procuringEntity_contactPoint_telephone}=   Get From Dictionary     ${procuringEntity.contactPoint}       telephone
-    ${procuringEntity_identifier_id}=            Get From Dictionary     ${procuringEntity.identifier}         id
-    ${procuringEntity_identifier_scheme}=        Get From Dictionary     ${procuringEntity.identifier}         scheme
-    ${procuringEntity_name}=                     Get From Dictionary     ${procuringEntity}                    name
-
-    ${minimalstep_amount}=              Convert To String     ${minimalstep_amount}
-    ${value_amount}=                    Convert To String     ${value_amount}
-    ${guarantee_amount}=                Convert To String     ${guarantee_amount}
-    ${deliverylocation_latitude}=       Convert To String     ${deliverylocation_latitude}
-    ${deliverylocation_longitude}=      Convert To String     ${deliverylocation_longitude}
-    ${tenderAttempts}=                  Convert To String     ${tenderAttempts}
-
-    ${auctionperiod_startdate}=        polonex_convertdate   ${auctionperiod_startdate}
 
     Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
     Sleep   2
-    Click Element       xpath=//a[contains(@id, 'addauctionbtn')]
+    Click Element       xpath=//a[contains(@id, 'addtenderbtn')]
     Sleep   4
 
-
-    Select From List    xpath=//select[@id="addauctionform-procurementmethodtype"]                ${procurementmethodtype}
-    Select From List    xpath=//select[@id="addauctionform-tenderattempts"]                       ${tenderAttempts}
-    Select From List    xpath=//select[@id="addauctionform-minimalstep_valueaddedtaxincluded"]    ${value_valueaddedtaxincluded}
-    Select From List    xpath=//select[@id="addauctionform-value_valueaddedtaxincluded"]          ${value_valueaddedtaxincluded}
-    Select From List    xpath=//select[@id="addauctionform-procuringentity_identifier_scheme"]    ${procuringEntity_identifier_scheme}
-    Input text      id=addauctionform-title                                                       ${title}
-    Input text      id=addauctionform-dgfid                                                       ${dgfID}
-
-    Input text      id=addauctionform-dgfdecisionid                                               ${dgfDecisionID}
-    Input text      id=addauctionform-dgfdecisiondate                                             ${dgfDecisionDate}
-
-    Input text      id=addauctionform-description                                                 ${description}
-    Input text      id=addauctionform-auctionperiod_startdate                                     ${auctionperiod_startdate}
-    Input text      id=addauctionform-minimalstep_amount                                          ${minimalstep_amount}
-    Input text      id=addauctionform-value_amount                                                ${value_amount}
-
-    Input text      id=addauctionform-guarantee_amount                                            ${guarantee_amount}
-
-
-    Input text      id=addauctionform-procuringentity_address_countryname                         ${procuringEntity_address_countryName}
-    Input text      id=addauctionform-procuringentity_address_locality                            ${procuringEntity_address_locality}
-    Input text      id=addauctionform-procuringentity_address_postalcode                          ${procuringEntity_address_postalCode}
-    Input text      id=addauctionform-procuringentity_address_region                              ${procuringEntity_address_region}
-    Input text      id=addauctionform-procuringentity_address_streetaddress                       ${procuringEntity_address_streetAddress}
-    Input text      id=addauctionform-procuringentity_contactpoint_name                           ${procuringEntity_contactPoint_name}
-    Input text      id=addauctionform-procuringentity_contactpoint_telephone                      ${procuringEntity_contactPoint_telephone}
-    Input text      id=addauctionform-procuringentity_identifier_id                               ${procuringEntity_identifier_id}
-    Input text      id=addauctionform-procuringentity_name                                        ${procuringEntity_name}
+    Input text          id=tender-title                                      ${tender-title}
+    Input text          id=tender-description                                ${tender-description}
+    Input text          id=tender-tenderID                                   ${tender-tenderID}
+    Input text          id=tender-procuringEntity-name                       ${tender-procuringEntity-name}
+    Select From List    id=tender-procuringEntity-identifier-scheme          ${tender-procuringEntity-identifier-scheme}
+    Input text          id=tender-procuringEntity-identifier-id              ${tender-procuringEntity-identifier-id}
+    Input text          id=tender-procuringEntity-identifier-legalName       ${tender-procuringEntity-identifier-legalName}
+    Input text          id=tender-procuringEntity-identifier-uri             ${tender-procuringEntity-identifier-uri}
+    Input text          id=tender-procuringEntity-address-streetAddress      ${tender-procuringEntity-address-streetAddress}
+    Input text          id=tender-procuringEntity-address-locality           ${tender-procuringEntity-address-locality}
+    Input text          id=tender-procuringEntity-address-region             ${tender-procuringEntity-address-region}
+    Input text          id=tender-procuringEntity-address-postalCode         ${tender-procuringEntity-address-postalCode}
+    Input text          id=tender-procuringEntity-address-countryName        ${tender-procuringEntity-address-countryName}
+    Input text          id=tender-procuringEntity-contactPoint-name          ${tender-procuringEntity-contactPoint-name}
+    Input text          id=tender-procuringEntity-contactPoint-email         ${tender-procuringEntity-contactPoint-email}
+    Input text          id=tender-procuringEntity-contactPoint-telephone     ${tender-procuringEntity-contactPoint-telephone}
+    Input text          id=tender-procuringEntity-contactPoint-faxNumber     ${tender-procuringEntity-contactPoint-faxNumber}
+    Input text          id=tender-procuringEntity-contactPoint-url           ${tender-procuringEntity-contactPoint-url}
+    Select From List    id=tender-procuringEntity-kind                       ${tender-procuringEntity-kind}
+    Input text          id=tender-value-amount                               ${tender-value-amount}
+    Select From List    id=tender-value-currency                             ${tender-value-currency}
+    Select From List    id=tender-value-valueAddedTaxIncluded                ${tender-value-valueAddedTaxIncluded}
+    Input text          id=tender-guarantee-amount                           ${tender-guarantee-amount}
+    Select From List    id=tender-guarantee-currency                         ${tender-guarantee-currency}
+    Input text          id=tender-minimalStep-amount                         ${tender-minimalStep-amount}
+    Select From List    id=tender-minimalStep-currency                       ${tender-minimalStep-currency}
+    Select From List    id=tender-minimalStep-valueAddedTaxIncluded          ${tender-minimalStep-valueAddedTaxIncluded}
 
     polonex.Додати предмети      ${items}
 
-    Sleep   5
-    Click Element   xpath=//button[contains(@id, 'add-auction-form-save')]
-    Wait Until Element Is Visible       xpath=//td[contains(@id, 'info_auctionID')]   30
-
-    ${tender_uaid}=     Get Text        xpath=//td[contains(@id, 'info_auctionID')]
+    Click Element   id=add-tender-form-save
+    Wait Until Element Is Visible       id=info_auctionID      30
+    ${tender_uaid}=     Get Text       id=info_auctionID
     [Return]    ${tender_uaid}
+
 
 Додати предмети
     [Arguments]  ${items}
@@ -209,15 +179,26 @@ Login
     ${index}=  Convert To Integer  ${index}
     Run Keyword If  ${index} != 0   Click Element   id=additem
     Run Keyword If  ${index} != 0   Sleep           4
-    Select From List    xpath=//select[@id="additemform-${index}-unit_code"]         ${item.unit.code}
-    Input text      id=additemform-${index}-description                              ${item.description}
-    Input text      id=additemform-${index}-quantity                                 ${item.quantity}
-    Execute Javascript    $("#additemform-${index}-classification_id").val("${item.classification.id}");
-    Execute Javascript    $("#additemform-${index}-classification_id").trigger("change");
+    Input text          id=tender-items-${index}-id                                  ${item.id}
+    Input text          id=tender-items-${index}-description                         ${item.description}
+    Execute Javascript  $("#tender-items-${index}-classification-id").val("${item.classification.id}");
+    Execute Javascript  $("#additemform-${index}-classification_id").trigger("change");
+    Select From List    id=tender-items-${index}-unit-code                           ${item.unit.code}
+    Input text          id=tender-items-${index}-quantity                            ${item.quantity}
+    Input text          id=tender-items-${index}-deliveryDate-startDate              ${item.deliveryDate.startDate}
+    Input text          id=tender-items-${index}-deliveryDate-endDate                ${item.deliveryDate.endDate}
+    Input text          id=tender-items-${index}-deliveryAddress-streetAddress       ${item.deliveryAddress.streetAddress}
+    Input text          id=tender-items-${index}-deliveryAddress-locality            ${item.deliveryAddress.locality}
+    Input text          id=tender-items-${index}-deliveryAddress-region              ${item.deliveryAddress.region}
+    Input text          id=tender-items-${index}-deliveryAddress-postalCode          ${item.deliveryAddress.postalCode}
+    Input text          id=tender-items-${index}-deliveryAddress-countryName         ${item.deliveryAddress.countryName}
+    Input text          id=tender-items-${index}-deliveryLocation-latitude           ${item.deliveryLocation.latitude}
+    Input text          id=tender-items-${index}-deliveryLocation-longitude          ${item.deliveryLocation.longitude}
+    Input text          id=tender-items-${index}-deliveryLocation-elevation          ${item.deliveryLocation.elevation}
 
 Завантажити документ до тендеру
-  [Arguments]   ${file}
-  Log  ${file}
+    [Arguments]   ${file}
+    Log  ${file}
 
 Завантажити документ
     [Arguments]  ${username}  ${filepath}  ${tender_uaid}
@@ -241,11 +222,11 @@ Set Multi Ids
     Sleep  2
     Click Element       name=more-search-btn
     Sleep  2
-    Input Text          id=proauctionssearch-auctionid   ${ARGUMENTS[1]}
+    Input Text          id=proauctionssearch-tenderid   ${ARGUMENTS[1]}
     Sleep  2
     Click Element       name=search-btn
     Sleep  5
-    Click Element     xpath=(//a[contains(@class, 'auction_detail_btn')])
+    Click Element     xpath=(//a[contains(@class, 'tender_detail_btn')])
     Wait Until Element Is Visible       id=info   30
 
 Отримати інформацію із тендера
