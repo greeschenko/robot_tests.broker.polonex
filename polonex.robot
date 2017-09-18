@@ -66,28 +66,28 @@ ${locator.cancelldoc.description}                    xpath=//div[contains(@class
 
 *** Keywords ***
 Підготувати клієнт для користувача
-  [Arguments]     @{ARGUMENTS}
-  [Documentation]  Відкрити брaвзер, створити обєкт api wrapper, тощо
-  Open Browser  ${USERS.users['${ARGUMENTS[0]}'].homepage}  ${USERS.users['${ARGUMENTS[0]}'].browser}  alias=${ARGUMENTS[0]}
-  Set Window Size       @{USERS.users['${ARGUMENTS[0]}'].size}
-  Set Window Position   @{USERS.users['${ARGUMENTS[0]}'].position}
-  Run Keyword If   '${ARGUMENTS[0]}' != 'polonex_viewer'   Login   ${ARGUMENTS[0]}
+    [Arguments]     @{ARGUMENTS}
+    [Documentation]  Відкрити брaвзер, створити обєкт api wrapper, тощо
+    Open Browser  ${USERS.users['${ARGUMENTS[0]}'].homepage}  ${USERS.users['${ARGUMENTS[0]}'].browser}  alias=${ARGUMENTS[0]}
+    Set Window Size       @{USERS.users['${ARGUMENTS[0]}'].size}
+    Set Window Position   @{USERS.users['${ARGUMENTS[0]}'].position}
+    Run Keyword If   '${ARGUMENTS[0]}' != 'polonex_viewer'   Login   ${ARGUMENTS[0]}
 
 Login
-  [Arguments]  @{ARGUMENTS}
-  Click Element        xpath=//li[contains(@id, 'loginbtn')]/a
-  Sleep   2
-  Clear Element Text   id=loginform-username
-  Input text      ${login_email}      ${USERS.users['${ARGUMENTS[0]}'].login}
-  Input text      ${login_pass}       ${USERS.users['${ARGUMENTS[0]}'].password}
-  Click Button    name=login-button
-  Sleep   2
-  Click Element   ${prozorropage}
+    [Arguments]  @{ARGUMENTS}
+    Click Element        xpath=//li[contains(@id, 'loginbtn')]/a
+    Sleep   2
+    Clear Element Text   id=loginform-username
+    Input text      ${login_email}      ${USERS.users['${ARGUMENTS[0]}'].login}
+    Input text      ${login_pass}       ${USERS.users['${ARGUMENTS[0]}'].password}
+    Click Button    name=login-button
+    Sleep   2
+    Click Element   ${prozorropage}
 
 Підготувати дані для оголошення тендера
-  [Documentation]  Це слово використовується в майданчиків, тому потрібно, щоб воно було і тут
-  [Arguments]  ${username}  ${tender_data}  ${role_name}
-  [return]  ${tender_data}
+    [Documentation]  Це слово використовується в майданчиків, тому потрібно, щоб воно було і тут
+    [Arguments]  ${username}  ${tender_data}  ${role_name}
+    [return]  ${tender_data}
 
 Створити тендер
   [Arguments]  ${username}  ${tender_data}
@@ -205,18 +205,18 @@ Login
     Choose File     xpath=//input[contains(@id, "doc_upload_field_biddingDocuments")]   ${filepath}
 
 Set Multi Ids
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} ==  ${tender_UAid}
-  Log  ${ARGUMENTS[0]}
-  ${id}=           Get Text           id=mForm:nBid
-  ${Ids}   Create List    ${tender_UAid}   ${id}
+    [Arguments]  @{ARGUMENTS}
+    [Documentation]
+    ...      ${ARGUMENTS[0]} ==  ${tender_UAid}
+    Log  ${ARGUMENTS[0]}
+    ${id}=           Get Text           id=mForm:nBid
+    ${Ids}   Create List    ${tender_UAid}   ${id}
 
 Пошук тендера по ідентифікатору
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} ==  username
-  ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
+    [Arguments]  @{ARGUMENTS}
+    [Documentation]
+    ...      ${ARGUMENTS[0]} ==  username
+    ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
     Switch browser   ${ARGUMENTS[0]}
     Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
     Sleep  2
@@ -234,218 +234,218 @@ Set Multi Ids
     ${return_value}=  Отримати інформацію про ${field_name}
     [Return]  ${return_value}
 
+Отримати текст із поля і показати на сторінці
+    [Arguments]   ${fieldname}
+    ${return_value}=   Get Text  ${locator.${fieldname}}
+    [Return]  ${return_value}
+
 Отримати інформацію про title
-  ${return_value}=   Отримати текст із поля і показати на сторінці   title
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   title
+    [Return]  ${return_value}
 
 Отримати інформацію про dgfID
-  ${return_value}=   Отримати текст із поля і показати на сторінці   dgfID
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   dgfID
+    [Return]  ${return_value}
 
 Отримати інформацію про dgfDecisionDate
-  ${return_value}=   Отримати текст із поля і показати на сторінці   dgfDecisionDate
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   dgfDecisionDate
+    [Return]  ${return_value}
 
 Отримати інформацію про dgfDecisionID
-  ${return_value}=   Отримати текст із поля і показати на сторінці   dgfDecisionID
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   dgfDecisionID
+    [Return]  ${return_value}
 
 Отримати інформацію про tenderAttempts
     ${return_value}=   Отримати текст із поля і показати на сторінці   tenderAttempts
     [Return]  ${return_value}
 
 Отримати інформацію про eligibilityCriteria
-  ${return_value}=   Отримати текст із поля і показати на сторінці   eligibilityCriteria
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   eligibilityCriteria
+    [Return]  ${return_value}
 
 Отримати інформацію про status
-  reload page
-  ${return_value}=   Отримати текст із поля і показати на сторінці   status
-  ${return_value}=   convert_polonex_string     ${return_value}
-  [Return]  ${return_value}
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   status
+    ${return_value}=   convert_polonex_string     ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про description
-  ${return_value}=   Отримати текст із поля і показати на сторінці   description
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   description
+    [Return]  ${return_value}
 
 Отримати інформацію про procurementMethodType
-  ${return_value}=   Отримати текст із поля і показати на сторінці   procurementMethodType
-  ${return_value}=   convert_polonex_string     ${return_value}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procurementMethodType
+    ${return_value}=   convert_polonex_string     ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про value.amount
-  ${return_value}=   Отримати текст із поля і показати на сторінці  value.amount
-  ${return_value}=   Convert To Number   ${return_value}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  value.amount
+    ${return_value}=   Convert To Number   ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про minimalStep.amount
-  ${return_value}=   Отримати текст із поля і показати на сторінці   minimalStep.amount
-  ${return_value}=   Convert To Number   ${return_value}
-  [Return]   ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   minimalStep.amount
+    ${return_value}=   Convert To Number   ${return_value}
+    [Return]   ${return_value}
 
 Отримати інформацію про items[0].quantity
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].quantity
-  ${return_value}=   Convert To Number   ${return_value}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].quantity
+    ${return_value}=   Convert To Number   ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].unit.code
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.code
-  ${return_value}=   Convert To String     ${return_value}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.code
+    ${return_value}=   Convert To String     ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].unit.name
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.name
-  ${return_value}=   Convert To String     ${return_value}
-  [Return]   ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.name
+    ${return_value}=   Convert To String     ${return_value}
+    [Return]   ${return_value}
 
 Отримати інформацію про value.currency
-  ${return_value}=   Отримати текст із поля і показати на сторінці  value.currency
-  ${return_value}=   Convert To String     ${return_value}
-  ${return_value}=   convert_polonex_string      ${return_value}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  value.currency
+    ${return_value}=   Convert To String     ${return_value}
+    ${return_value}=   convert_polonex_string      ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про value.valueAddedTaxIncluded
-  ${return_value}=   Отримати текст із поля і показати на сторінці  value.valueAddedTaxIncluded
-  ${return_value}=   convert_polonex_string      ${return_value}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  value.valueAddedTaxIncluded
+    ${return_value}=   convert_polonex_string      ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про auctionId
-  ${return_value}=   Отримати текст із поля і показати на сторінці   tenderId
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   tenderId
+    [Return]  ${return_value}
 
 Отримати інформацію про procuringEntity.name
-  ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.name
-  [Return]  ${return_value}
-
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.name
+    [Return]  ${return_value}
 
 Отримати інформацію про tenderPeriod.startDate
-  ${return_value}=    Отримати текст із поля і показати на сторінці  tenderPeriod.startDate
-  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
-  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
-  [Return]    ${return_value}
+    ${return_value}=    Отримати текст із поля і показати на сторінці  tenderPeriod.startDate
+    ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+    ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
+    [Return]    ${return_value}
 
 Отримати інформацію про tenderPeriod.endDate
-  ${return_value}=   Отримати текст із поля і показати на сторінці  tenderPeriod.endDate
-  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
-  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
-  [Return]    ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  tenderPeriod.endDate
+    ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+    ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
+    [Return]    ${return_value}
 
 Отримати інформацію про enquiryPeriod.startDate
-  ${return_value}=   Отримати текст із поля і показати на сторінці  enquiryPeriod.startDate
-  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
-  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
-  [Return]    ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  enquiryPeriod.startDate
+    ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+    ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
+    [Return]    ${return_value}
 
 Отримати інформацію про enquiryPeriod.endDate
-  ${return_value}=   Отримати текст із поля і показати на сторінці  enquiryPeriod.endDate
-  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
-  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  enquiryPeriod.endDate
+    ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+    ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
+    [Return]  ${return_value}
 
 Отримати інформацію про auctionPeriod.startDate
-  ${return_value}=   Отримати текст із поля і показати на сторінці  auctionPeriod.startDate
-  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
-  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
-  [return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  auctionPeriod.startDate
+    ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+    ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
+    [return]  ${return_value}
 
 Отримати інформацію про auctionPeriod.endDate
-  ${return_value}=   Отримати текст із поля і показати на сторінці  auctionPeriod.endDate
-  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
-  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  auctionPeriod.endDate
+    ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+    ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].description
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].description
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].description
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].classification.id
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].classification.id
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].classification.id
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].classification.scheme
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].classification.scheme
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].classification.scheme
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].classification.description
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].classification.description
-  ${return_value}=   Convert To String     ${return_value}
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].classification.description
+    ${return_value}=   Convert To String     ${return_value}
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].deliveryAddress.countryName
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.countryName
-  [Return]      ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.countryName
+    [Return]      ${return_value}
 
 Отримати інформацію про items[0].deliveryAddress.postalCode
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.postalCode
-  [Return]      ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.postalCode
+    [Return]      ${return_value}
 
 Отримати інформацію про items[0].deliveryAddress.region
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.region
-  [Return]   ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.region
+    [Return]   ${return_value}
 
 Отримати інформацію про items[0].deliveryAddress.locality
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.locality
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.locality
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].deliveryAddress.streetAddress
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.streetAddress
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.streetAddress
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].deliveryDate.endDate
-  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryDate.endDate
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryDate.endDate
+    [Return]  ${return_value}
 
 Отримати інформацію про items[0].deliveryLocation.latitude
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryLocation.latitude
-  ${return_value}=   Convert To Number   ${return_value}
-  [return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryLocation.latitude
+    ${return_value}=   Convert To Number   ${return_value}
+    [return]  ${return_value}
 
 Отримати інформацію про items[0].deliveryLocation.longitude
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryLocation.longitude
-  ${return_value}=   Convert To Number   ${return_value}
-  [return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryLocation.longitude
+    ${return_value}=   Convert To Number   ${return_value}
+    [return]  ${return_value}
 
 Отримати інформацію про questions[0].title
-  ${return_value}=  Get text          ${locator.questions[0].title}
-  [Return]  ${return_value}
+    ${return_value}=  Get text          ${locator.questions[0].title}
+    [Return]  ${return_value}
 
 Отримати інформацію про questions[0].description
-  ${return_value}=   Отримати текст із поля і показати на сторінці   questions[0].description
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   questions[0].description
+    [Return]  ${return_value}
 
 Отримати інформацію про questions[0].date
-  ${return_value}=   Отримати текст із поля і показати на сторінці   questions[0].date
-  [Return]  ${return_value}
+    ${return_value}=   Отримати текст із поля і показати на сторінці   questions[0].date
+    [Return]  ${return_value}
 
 Отримати інформацію про questions[0].answer
-  ${return_value}=  Get text          ${locator.questions[0].answer}
-  [Return]  ${return_value}
+    ${return_value}=  Get text          ${locator.questions[0].answer}
+    [Return]  ${return_value}
 
 Отримати інформацію про cancellations[0].status
-  ${return_value}=  Get text          ${locator.cancellations[0].status}
-  [Return]  ${return_value}
+    ${return_value}=  Get text          ${locator.cancellations[0].status}
+    [Return]  ${return_value}
 
 Отримати інформацію про cancellations[0].reason
-  ${return_value}=  Get text          ${locator.cancellations[0].reason}
-  [Return]  ${return_value}
+    ${return_value}=  Get text          ${locator.cancellations[0].reason}
+    [Return]  ${return_value}
 
 Внести зміни в тендер
-  [Arguments]  ${username}  ${tender_uaid}  ${field_name}  ${field_value}
-  polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
-  Click Element     id=update_auction_btn
-  Sleep   2
-  Input text  name=addauctionform-[${field_name}]  ${field_value}
-  Click Button    id=add-auction-form-save
-  Wait Until Page Contains  ${field_value}  30
+    [Arguments]  ${username}  ${tender_uaid}  ${field_name}  ${field_value}
+    polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+    Click Element     id=update_tender_btn
+    Sleep   2
+    Input text  name=tender-[${field_name}]  ${field_value}
+    Click Button    id=add-tender-form-save
+    Wait Until Page Contains  ${field_value}  30
 
 Задати питання
-    [Arguments]  @{ARGUMENTS}
-    [Documentation]
-    ...      ${ARGUMENTS[0]} ==  username
-    ...      ${ARGUMENTS[1]} ==  tenderUaId
-    ...      ${ARGUMENTS[2]} ==  questionId
-    ${title}=        Get From Dictionary  ${ARGUMENTS[2].data}  title
-    ${description}=  Get From Dictionary  ${ARGUMENTS[2].data}  description
+    [Arguments]  ${username}  ${tender_uaid}  ${question}
+    ${title}=        Get From Dictionary  ${question.data}  title
+    ${description}=  Get From Dictionary  ${question.data}  description
     Click Element         id=add_question_btn
     Sleep  2
     Input Text          id=addquestionform-title          ${title}
@@ -455,13 +455,11 @@ Set Multi Ids
     Wait Until Page Contains  ${title}  30
 
 Оновити сторінку з тендером
-    [Arguments]    @{ARGUMENTS}
-    [Documentation]    ${ARGUMENTS[0]} = username
-    ...      ${ARGUMENTS[1]} = ${TENDER_UAID}
-    Switch browser   ${ARGUMENTS[0]}
-    Go to   ${USERS.users['${ARGUMENTS[0]}'].syncpage}
-    Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
-    polonex.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}    ${ARGUMENTS[1]}
+    [Arguments]  ${username}  ${tender_uaid}
+    Switch browser   ${username}
+    Go to   ${USERS.users['${username}'].syncpage}
+    Go to   ${USERS.users['${username}'].homepage}
+    polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
 
 Подати цінову пропозицію
     [Arguments]  @{ARGUMENTS}
