@@ -462,17 +462,10 @@ Set Multi Ids
     polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
 
 Подати цінову пропозицію
-    [Arguments]  @{ARGUMENTS}
-    [Documentation]
-    ...    ${ARGUMENTS[0]} ==  username
-    ...    ${ARGUMENTS[1]} ==  tenderId
-    ...    ${ARGUMENTS[2]} ==  ${test_bid_data}
-    ${status}=          Get From Dictionary         ${ARGUMENTS[2].data}    qualified
-    ${amount}=    Get From Dictionary     ${ARGUMENTS[2].data.value}    amount
-    ${amount}=          Convert To String     ${amount}
-    Run Keyword If  ${status}
-    ...  polonex.Пошук тендера по ідентифікатору  ${ARGUMENTS[0]}  ${ARGUMENTS[1]}
-    ...  ELSE   Go To  http://test.polonex.in.ua
+    [Arguments]  ${username}  ${tender_uaid}  ${test_bid_data}
+    ${amount}=    Get From Dictionary     ${test_bid_data.data.value}    amount
+    ${amount}=    Convert To String       ${amount}
+    polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
     Click Element       id=add_bid_btn
     Sleep   2
     Input Text          id=addbidform-sum       ${amount}
@@ -483,19 +476,9 @@ Set Multi Ids
     [Return]    ${resp}
 
 Скасувати цінову пропозицію
-    [Arguments]  @{ARGUMENTS}
-    [Documentation]
-    ...    ${ARGUMENTS[0]} ==  username
-    ...    ${ARGUMENTS[1]} ==  none
-    ...    ${ARGUMENTS[2]} ==  tenderId
+    [Arguments]  ${username}  ${tender_uaid}  ${bid}
+    polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
     Click Element       id=cansel-bid
-
-Пошук цінової пропозиції
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} ==  username
-  ...      ${ARGUMENTS[1]} ==  bid_number
-  Log Many  @{ARGUMENTS}
 
 Відповісти на питання
     [Arguments]  ${username}  ${tender_uaid}  ${answer_data}  ${question_id}
@@ -509,27 +492,23 @@ Set Multi Ids
     Wait Until Page Contains   ${answer_data.data.answer}   10
 
 Отримати посилання на аукціон для глядача
-    [Arguments]  @{ARGUMENTS}
-    polonex.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}    ${ARGUMENTS[1]}
-    ${result}=                  Get Element Attribute               id=show_public_btn@href
+    [Arguments]  ${username}  ${tender_uaid}
+    polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+    ${result}=  Get Element Attribute  id=show_public_btn@href
     [Return]   ${result}
 
 Отримати посилання на аукціон для учасника
-    [Arguments]  @{ARGUMENTS}
-    polonex.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}    ${ARGUMENTS[1]}
+    [Arguments]  ${username}  ${tender_uaid}
+    polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
     ${result}=                  Get Element Attribute               id=show_private_btn@href
     [Return]   ${result}
 
 Змінити цінову пропозицію
-    [Arguments]  @{ARGUMENTS}
-    [Documentation]
-    ...    ${ARGUMENTS[0]} ==  username
-    ...    ${ARGUMENTS[1]} ==  tenderId
-    ...    ${ARGUMENTS[2]} ==  amount
-    ...    ${ARGUMENTS[3]} ==  amount.value
+    [Arguments]  ${username}  ${tender_uaid}  ${fieldname}  ${fieldvalue}
+    polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
     Click Element       id=edit_user_bid
     Sleep   2
-    ${newsum}=          Convert To String       ${ARGUMENTS[3]}
+    ${newsum}=          Convert To String       ${fieldvalue}
     Input Text          id=addbidform-sum       ${newsum}
     Click Element       id=submit_add_bid_form
     Sleep   10
@@ -540,20 +519,16 @@ Set Multi Ids
     [Arguments]  ${username}  ${path}  ${tender_uaid}  ${doc_type}=documents
     Sleep   30
     polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
-    Click Element           id=edit_user_bid
+    Click Element   id=edit_user_bid
     Sleep   2
-    Choose File             xpath=//input[contains(@id, 'bid_doc_upload_fieldcommercialProposal')]   ${path}
+    Choose File     xpath=//input[contains(@id, 'bid_doc_upload_fieldcommercialProposal')]   ${path}
     sleep   4
-    Click Element           id=submit_add_bid_form
+    Click Element   id=submit_add_bid_form
 
 Змінити документ в ставці
-    [Arguments]  @{ARGUMENTS}
-    [Documentation]
-    ...    ${ARGUMENTS[0]} ==  username
-    ...    ${ARGUMENTS[1]} ==  file
-    ...    ${ARGUMENTS[2]} ==  tenderId
-    Click Element           id=file_edit_0
+    [Arguments]  ${username}  ${path}  ${bidid}  ${docid}
+    Click Element   id=file_edit_0
     Sleep   2
-    Choose File             xpath=//input[contains(@id, 'prouploadform-filedata')]   ${ARGUMENTS[1]}
+    Choose File     xpath=//input[contains(@id, 'prouploadform-filedata')]   ${path}
     sleep   2
-    Click Element           id=submit_add_file_form
+    Click Element   id=submit_add_file_form
