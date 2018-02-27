@@ -16,11 +16,11 @@ ${locator.title}                                                id=auction_title
 ${locator.dgfID}                                                id=info_dgfID
 ${locator.status}                                               id=auction_status_name
 ${locator.description}                                          id=info_description
-${locator.minimalStep.amount}                      xpath=//td[contains(@id, 'info_minimalStep')]/span[contains(@class, 'amount')]
-${locator.value.amount}                            xpath=//td[contains(@id, 'info_value')]/span[contains(@class, 'amount')]
-${locator.value.currency}                          xpath=//td[contains(@id, 'info_value')]/span[contains(@class, 'currency')]
-${locator.value.valueAddedTaxIncluded}             xpath=//td[contains(@id, 'info_value')]/span[contains(@class, 'tax')]
-${locator.tenderId}                                             id=info_auctionID
+${locator.minimalStep.amount}                                   xpath=//td[contains(@id, 'info_minimalStep')]/span[contains(@class, 'amount')]
+${locator.value.amount}                                         xpath=//td[contains(@id, 'info_value')]/span[contains(@class, 'amount')]
+${locator.value.currency}                                       xpath=//td[contains(@id, 'info_value')]/span[contains(@class, 'currency')]
+${locator.value.valueAddedTaxIncluded}                          xpath=//td[contains(@id, 'info_value')]/span[contains(@class, 'tax')]
+${locator.tenderId}                                             id=info_tenderID
 ${locator.procuringEntity.name}                                 id=org_name
 ${locator.enquiryPeriod.startDate}                              id=enquiryPeriodDatastartDate
 ${locator.enquiryPeriod.endDate}                                id=enquiryPeriodDataendDate
@@ -37,17 +37,18 @@ ${locator.items[0].quantity}                                    id=items[0]_quan
 ${locator.items[0].description}                                 id=items[0]_description
 ${locator.items[0].unit.code}                                   id=items[0]_unit_code
 ${locator.items[0].unit.name}                                   id=items[0]_unit_name
-${locator.items[0].deliveryAddress.postalCode}                  id=item[0]deliveryAddress_postalCode
-${locator.items[0].deliveryAddress.countryName}                 id=item[0]deliveryAddress_countryName
-${locator.items[0].deliveryAddress.region}                      id=item[0]deliveryAddress_region
-${locator.items[0].deliveryAddress.locality}                    id=item[0]deliveryAddress_locality
-${locator.items[0].deliveryAddress.streetAddress}               id=item[0]deliveryAddress_streetAddress
+${locator.items[0].deliveryAddress.postalCode}                  id=items[0]_deliveryAddress_postalCode
+${locator.items[0].deliveryAddress.countryName}                 id=items[0]_deliveryAddress_countryName
+${locator.items[0].deliveryAddress.region}                      id=items[0]_deliveryAddress_region
+${locator.items[0].deliveryAddress.locality}                    id=items[0]_deliveryAddress_locality
+${locator.items[0].deliveryAddress.streetAddress}               id=items[0]_deliveryAddress_streetAddress
 ${locator.items[0].deliveryLocation.latitude}                   id=items[0]_deliveryLocation_latitude
 ${locator.items[0].deliveryLocation.longitude}                  id=items[0]_deliveryLocation_longitude
-${locator.items[0].deliveryDate.endDate}                        id=item[0]deliveryDate_endDate
-${locator.items[0].classification.scheme}                       id=classification_scheme
-${locator.items[0].classification.id}                           id=classification_id
-${locator.items[0].classification.description}                  id=classification_description
+${locator.items[0].deliveryDate.startDate}                      id=items[0]_deliveryDate_startDate
+${locator.items[0].deliveryDate.endDate}                        id=items[0]_deliveryDate_endDate
+${locator.items[0].classification.scheme}                       id=items[0]_classification_scheme
+${locator.items[0].classification.id}                           id=items[0]_classification_id
+${locator.items[0].classification.description}                  id=items[0]_classification_description
 ${locator.questions[0].title}                                   id=q[0]title
 ${locator.questions[0].description}                             id=q[0]description
 ${locator.questions[0].date}                                    id=q[0]date
@@ -185,9 +186,9 @@ Login
 
     Sleep   15
     Click Element   xpath=//button[contains(@id, 'add-auction-form-save')]
-    Wait Until Element Is Visible       xpath=//td[contains(@id, 'info_auctionID')]   30
+    Wait Until Element Is Visible       xpath=//td[contains(@id, 'info_tenderID')]   30
 
-    ${tender_uaid}=     Get Text        xpath=//td[contains(@id, 'info_auctionID')]
+    ${tender_uaid}=     Get Text        xpath=//td[contains(@id, 'info_tenderID')]
     [Return]    ${tender_uaid}
 
 Завантажити документ
@@ -213,15 +214,17 @@ Login
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
 
+    Go to   http://prozorrodev.ga/prozorrotender/tender/sync-all?n=10
+    Sleep  10
     Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
     Sleep  2
     Click Element       name=more-search-btn
     Sleep  2
-    Input Text          id=proauctionssearch-auctionid   ${ARGUMENTS[1]}
+    Input Text          id=tendersearch-tenderid   ${ARGUMENTS[1]}
     Sleep  2
     Click Element       name=search-btn
     Sleep  2
-    Click Element     xpath=(//a[contains(@class, 'btn-default')])[1]
+    Click Element     xpath=(//a[contains(@class, 'auction_detail_btn')])
     Sleep  1
 
 Задати питання
@@ -335,7 +338,7 @@ Login
   ${return_value}=   convert_polonex_string      ${return_value}
   [Return]  ${return_value}
 
-Отримати інформацію про auctionId
+Отримати інформацію про tenderId
   ${return_value}=   Отримати текст із поля і показати на сторінці   tenderId
   [Return]  ${return_value}
 
@@ -411,6 +414,10 @@ Login
 
 Отримати інформацію про items[0].deliveryAddress.streetAddress
   ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryAddress.streetAddress
+  [Return]  ${return_value}
+
+Отримати інформацію про items[0].deliveryDate.startDate
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[0].deliveryDate.startDate
   [Return]  ${return_value}
 
 Отримати інформацію про items[0].deliveryDate.endDate
@@ -551,6 +558,13 @@ Login
   Set To Dictionary  ${data}    value=${value}
   Set To Dictionary  ${value}   amount=${proposition_amount}
   [return]           ${bid}
+
+Отримати інформацію із запитання
+  [Arguments]  ${username}  ${tender_uaid}  ${question_id}  ${field_name}
+  polonex.Пошук тендера по ідентифікатору   ${username}   ${tender_uaid}
+  Wait Until Element Is Visible   ${locator.questions[0].${field_name}}
+  ${return_value}=   Get Text   ${locator.questions[0].${field_name}}
+  [return]  ${return_value}
 
 Отримати інформацію із пропозиції
   [Arguments]  ${username}  ${tender_uaid}  ${field}

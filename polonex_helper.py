@@ -36,7 +36,7 @@ def convert_polonex_string(string):
             u"Hi":  False,
             u'Період уточнень':        'active.enquiries',
             u'Очікування пропозицій':  'active.tendering',
-            u'Період аукціону':        'active.auction',
+            u'Аукціон':                'active.auction',
             u'Кваліфікація переможця': 'active.qualification',
             u'Пропозиції розглянуто':  'active.awarded',
             u'Закупівля не відбулась': 'unsuccessful',
