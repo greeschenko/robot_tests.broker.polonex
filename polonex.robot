@@ -264,6 +264,19 @@ Login
   ${field_name}=  Отримати шлях до поля об’єкта  ${username}  ${field_name}  ${item_id}
   Run Keyword And Return  polonex.Отримати інформацію із тендера  ${username}  ${tender_uaid}  ${field_name}
 
+Отримати інформацію із документа
+  [Arguments]  ${username}  ${tender_uaid}  ${doc_id}  ${field}
+  ${tender}=  polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+  ${return_value}=   Get Element Attribute   xpath=//div[contains(@data-name,'${doc_id}')]@data-name
+  [Return]  ${return_value}
+
+Отримати документ
+    [Arguments]  ${username}  ${tender_uaid}  ${doc_id}
+    ${file_name}=   Get Element Attribute   xpath=//div[contains(@data-name,'${doc_id}')]@data-name
+    ${url}=   Get Element Attribute   xpath=//div[contains(@data-name,'${doc_id}')]@data-src
+    polonex_download_file   ${url}  ${file_name}  ${OUTPUT_DIR}
+    [return]  ${file_name}
+
 Отримати текст із поля і показати на сторінці
   [Arguments]   ${fieldname}
   ${return_value}=   Get Text  ${locator.${fieldname}}

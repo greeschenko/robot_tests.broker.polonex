@@ -3,6 +3,7 @@ import dateutil.parser
 from datetime import datetime
 from pytz import timezone
 import os
+import urllib
 
 
 def polonex_convertdate(isodate):
@@ -27,6 +28,9 @@ def convert_polonex_date_to_iso_format(date_time_from_ui):
 
 def split_descr(str):
     return str.split(' - ')[1];
+
+def polonex_download_file(url, file_name, output_dir):
+    urllib.urlretrieve(url, ('{}/{}'.format(output_dir, file_name)))
 
 def convert_polonex_string(string):
     return {
