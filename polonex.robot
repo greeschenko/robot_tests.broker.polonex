@@ -227,15 +227,12 @@ Login
     Click Element     xpath=(//a[contains(@class, 'auction_detail_btn')])
     Sleep  1
 
-Задати питання
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} ==  username
-  ...      ${ARGUMENTS[1]} ==  tenderUaId
-  ...      ${ARGUMENTS[2]} ==  questionId
-  ${title}=        Get From Dictionary  ${ARGUMENTS[2].data}  title
-  ${description}=  Get From Dictionary  ${ARGUMENTS[2].data}  description
-
+Задати запитання
+  [Arguments]  ${username}  ${tender_uaid}  ${question}  ${related_id}
+  ${title}=        Get From Dictionary  ${question.data}  title
+  ${description}=  Get From Dictionary  ${question.data}  description
+  polonex.Пошук тендера по ідентифікатору   ${username}   ${tender_uaid}
+  Wait Until Page Contains Element   id=add_question_btn
   Click Element         id=add_question_btn
   Sleep  2
   Input Text          id=addquestionform-title          ${title}
@@ -243,6 +240,18 @@ Login
   Sleep  2
   Click Element       id=submit_add_question_form
   Sleep  2
+
+Задати запитання на тендер
+  [Arguments]  ${username}  ${tender_uaid}  ${question}
+  Задати запитання  ${username}  ${tender_uaid}  ${question}  ${tender_uaid}
+
+Задати запитання на предмет
+  [Arguments]  ${username}  ${tender_uaid}  ${item_id}  ${question}
+  Задати запитання  ${username}  ${tender_uaid}  ${question}  ${item_id}
+
+Задати запитання на лот
+  [Arguments]  ${username}  ${tender_uaid}  ${lot_id}  ${question}
+  Задати запитання  ${username}  ${tender_uaid}  ${question}  ${lot_id}
 
 Оновити сторінку з тендером
     [Arguments]    @{ARGUMENTS}
@@ -362,22 +371,26 @@ Login
 
 Отримати інформацію про tenderPeriod.startDate
   ${return_value}=    Отримати текст із поля і показати на сторінці  tenderPeriod.startDate
-  ${return_value}=    convert_date_polonex      ${return_value}
+  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
   [Return]    ${return_value}
 
 Отримати інформацію про tenderPeriod.endDate
   ${return_value}=   Отримати текст із поля і показати на сторінці  tenderPeriod.endDate
-  ${return_value}=    convert_date_polonex      ${return_value}
+  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
   [Return]    ${return_value}
 
 Отримати інформацію про enquiryPeriod.startDate
   ${return_value}=   Отримати текст із поля і показати на сторінці  enquiryPeriod.startDate
-  ${return_value}=    convert_date_polonex      ${return_value}
+  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
   [Return]    ${return_value}
 
 Отримати інформацію про enquiryPeriod.endDate
   ${return_value}=   Отримати текст із поля і показати на сторінці  enquiryPeriod.endDate
-  ${return_value}=    convert_date_polonex      ${return_value}
+  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
   [Return]  ${return_value}
 
 Отримати інформацію про auctionPeriod.startDate
