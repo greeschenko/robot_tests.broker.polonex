@@ -8,7 +8,7 @@ Library     polonex_helper.py
 
 
 *** Variables ***
-${sign_in}                                                      id=loginbtn
+${sign_in}                                                      id=lbtn-mobile
 ${login_email}                                                  id=loginform-username
 ${login_pass}                                                   id=loginform-password
 ${prozorropage}                                                 id=prozorropagebtn
@@ -65,7 +65,7 @@ ${locator.questions[0].answer}                                  id=q[0]answer
 
 Login
   [Arguments]  @{ARGUMENTS}
-  Click Element        xpath=//li[contains(@id, 'loginbtn')]/a
+  Click Element        xpath=//li[contains(@id, 'lbtn-mobile')]/a
   Sleep   2
   Clear Element Text   id=loginform-username
   Input text      ${login_email}      ${USERS.users['${ARGUMENTS[0]}'].login}
@@ -214,7 +214,7 @@ Login
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
 
-    Go to   http://prozorrodev.ga/prozorrotender/tender/sync-all?n=10
+    Go to   http://prozorrodev.ga/prozorrotender/tender/sync-all?n=20
     Sleep  10
     Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
     Sleep  2
@@ -239,7 +239,8 @@ Login
   Input Text          id=addquestionform-description    ${description}
   Sleep  2
   Click Element       id=submit_add_question_form
-  Sleep  2
+  Wait Until Page Contains  ${title}  30
+
 
 Задати запитання на тендер
   [Arguments]  ${username}  ${tender_uaid}  ${question}
@@ -252,6 +253,22 @@ Login
 Задати запитання на лот
   [Arguments]  ${username}  ${tender_uaid}  ${lot_id}  ${question}
   Задати запитання  ${username}  ${tender_uaid}  ${question}  ${lot_id}
+
+Відповісти на питання
+  [Arguments]  @{ARGUMENTS}
+  [Documentation]
+  ...      ${ARGUMENTS[0]} = username
+  ...      ${ARGUMENTS[1]} = ${TENDER_UAID}
+  ...      ${ARGUMENTS[2]} = 0
+  ...      ${ARGUMENTS[3]} = answer_data
+  ${answer}=     Get From Dictionary  ${ARGUMENTS[3].data}  answer
+  Reload Page
+  Click Element                         xpath=//a[contains(@href, '#tab_questions')]
+  Sleep     4
+  Click Element                         xpath=//a[contains(@id, 'add_answer_btn_0')]
+  Sleep     4
+  Input Text                            id=addanswerform-answer        ${answer}
+  Click Element                         id=submit_add_answer_form
 
 Оновити сторінку з тендером
     [Arguments]    @{ARGUMENTS}
@@ -478,21 +495,6 @@ Login
   ${return_value}=  Get text          ${locator.questions[0].answer}
   [Return]  ${return_value}
 
-Відповісти на питання
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} = username
-  ...      ${ARGUMENTS[1]} = ${TENDER_UAID}
-  ...      ${ARGUMENTS[2]} = 0
-  ...      ${ARGUMENTS[3]} = answer_data
-  ${answer}=     Get From Dictionary  ${ARGUMENTS[3].data}  answer
-  Reload Page
-  Click Element                         xpath=//a[contains(@href, '#tab_questions')]
-  Sleep     4
-  Click Element                         xpath=//a[contains(@id, 'add_answer_btn_0')]
-  Sleep     4
-  Input Text                            id=addanswerform-answer        ${answer}
-  Click Element                         id=submit_add_answer_form
 
 Подати цінову пропозицію
     [Arguments]  @{ARGUMENTS}
@@ -500,9 +502,8 @@ Login
     ...    ${ARGUMENTS[0]} ==  username
     ...    ${ARGUMENTS[1]} ==  tenderId
     ...    ${ARGUMENTS[2]} ==  ${test_bid_data}
-    ${amount}=    Get From Dictionary     ${ARGUMENTS[2].data.value}    amount
-    ${amount}=              Convert To String     ${amount}
-
+    ${amount}=          Get From Dictionary     ${ARGUMENTS[2].data.value}    amount
+    ${amount}=          Convert To String     ${amount}
     Click Element       id=add_bid_btn
     Sleep   2
     Input Text          id=addbidform-sum       ${amount}
