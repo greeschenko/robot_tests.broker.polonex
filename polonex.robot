@@ -86,6 +86,8 @@ Login
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  tender_data
 
+  log to console  ${ARGUMENTS[1]}
+
 ###data:
 ###    description: Постояльний висмівати подубнути бердник прахтика атака дешперувати.
 ###    description_en: Quos quasi natus quos quo temporibus provident distinctio fuga
@@ -251,6 +253,7 @@ Login
     Select From List    xpath=//select[@id="addtenderform-minimalstep_currency"]    ${minimalstep_currency}
     Select From List    xpath=//select[@id="addtenderform-value_currency"]    ${value_currency}
     Select From List    xpath=//select[@id="addtenderform-value_valueaddedtaxincluded"]    ${value_valueaddedtaxincluded}
+    Select From List    xpath=//select[@id="addtenderform-minimalstep_valueaddedtaxincluded"]    ${value_valueaddedtaxincluded}
     Select From List    xpath=//select[@id="addtenderform-procuringentity_kind"]    ${procuringEntity_kind}
     Select From List    xpath=//select[@id="addtenderitemsform-0-unit_code"]    ${unit_code}
 
@@ -269,30 +272,32 @@ Login
     Input text      id=addtenderitemsform-0-deliverylocation_latitude  ${deliverylocation_latitude}
     Input text      id=addtenderitemsform-0-deliverylocation_longitude  ${deliverylocation_longitude}
     Input text      id=addtenderitemsform-0-quantity  ${quantity}
-    Input text      id=addtenderform-procuringentity_address_countryName  ${procuringEntity_address_countryName}
+    Input text      id=addtenderform-procuringentity_address_countryname  ${procuringEntity_address_countryName}
     Input text      id=addtenderform-procuringentity_address_locality  ${procuringEntity_address_locality}
-    Input text      id=addtenderform-procuringentity_address_postalCode  ${procuringEntity_address_postalCode}
+    Input text      id=addtenderform-procuringentity_address_postalcode  ${procuringEntity_address_postalCode}
     Input text      id=addtenderform-procuringentity_address_region  ${procuringEntity_address_region}
     Input text      id=addtenderform-procuringentity_address_streetaddress  ${procuringEntity_address_streetAddress}
     Input text      id=addtenderform-procuringentity_contactpoint_name  ${procuringEntity_contactPoint_name}
     Input text      id=addtenderform-procuringentity_contactpoint_telephone  ${procuringEntity_contactPoint_telephone}
     Input text      id=addtenderform-procuringentity_contactpoint_email  ${procuringEntity_contactPoint_email}
-    Input text      id=addtenderform-procuringentity_contactpoint_faxNumber  ${procuringEntity_contactPoint_faxNumber}
+    Input text      id=addtenderform-procuringentity_contactpoint_faxnumber  ${procuringEntity_contactPoint_faxNumber}
     Input text      id=addtenderform-procuringentity_contactpoint_url  ${procuringEntity_contactPoint_url}
     Input text      id=addtenderidentifierform-0-id  ${procuringEntity_identifier_id}
     Input text      id=addtenderidentifierform-0-scheme  ${procuringEntity_identifier_scheme}
-    Input text      id=addtenderidentifierform-0-legalName  ${procuringEntity_identifier_legalName}
+    Input text      id=addtenderidentifierform-0-legalname  ${procuringEntity_identifier_legalName}
     Input text      id=addtenderform-procuringentity_name  ${procuringEntity_name}
-    Input text      id=addtenderform-enquiryperiod_endDate  ${enquiryPeriod_endDate}
+    Input text      id=addtenderform-enquiryperiod_enddate  ${enquiryPeriod_endDate}
     Input text      id=addtenderform-enquiryperiod_startdate  ${enquiryPeriod_startDate}
-    Input text      id=addtenderform-tenderperiod_endDate  ${tenderPeriod_endDate}
+    Input text      id=addtenderform-tenderperiod_enddate  ${tenderPeriod_endDate}
     Input text      id=addtenderform-tenderperiod_startdate  ${tenderPeriod_startDate}
 
-    Execute Javascript    $('#addtenderitemsform-0-classification_id').val('${classification_id}');
-    Execute Javascript    $('#addtenderitemsform-0-additionalclassifications_id').val('${additionalClassification_id}');
+    Execute Javascript    $("#addtenderitemsform-0-classification_id").val("${classification_id}");
+    Execute Javascript    $("#addtenderitemsform-0-classification_id").trigger("change");
+    Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_id").val("01.11.81");
+    Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_id").trigger("change");
 
     Sleep   15
-    Click Element   xpath=//button[contains(@id, 'add-auction-form-save')]
+    Click Element   xpath=//button[contains(@id, 'add-tender-form-save')]
     Wait Until Element Is Visible       xpath=//td[contains(@id, 'info_tenderID')]   30
 
     ${tender_uaid}=     Get Text        xpath=//td[contains(@id, 'info_tenderID')]
