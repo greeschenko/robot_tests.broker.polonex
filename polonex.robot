@@ -49,8 +49,8 @@ ${locator.items[0].deliveryDate.endDate}                        id=items[0]_deli
 ${locator.items[0].classification.scheme}                       id=items[0]_classification_scheme
 ${locator.items[0].classification.id}                           id=items[0]_classification_id
 ${locator.items[0].classification.description}                  id=items[0]_classification_description
-${locator.questions[0].title}                                   id=q[0]title
-${locator.questions[0].description}                             id=q[0]description
+${locator.questions[0].title}                                   xpath=//div[@id="q[0]title"]
+${locator.questions[0].description}                             xpath=//div[@id="q[0]description"]
 ${locator.questions[0].date}                                    id=q[0]date
 ${locator.questions[0].answer}                                  id=q[0]answer
 
@@ -238,11 +238,16 @@ Login
     ${enquiryPeriod_startDate}=  polonex_convertdate   ${enquiryPeriod_startDate}
     ${tenderPeriod_endDate}=     polonex_convertdate   ${tenderPeriod_endDate}
     ${tenderPeriod_startDate}=   polonex_convertdate   ${tenderPeriod_startDate}
+    ${deliverydate_startdate}=   polonex_convertdate   ${deliverydate_startdate}
+    ${deliverydate_enddate}=     polonex_convertdate   ${deliverydate_enddate}
+
 
     ${minimalstep_amount}=              Convert To String     ${minimalstep_amount}
     ${value_amount}=                    Convert To String     ${value_amount}
     ${deliverylocation_latitude}=       Convert To String     ${deliverylocation_latitude}
     ${deliverylocation_longitude}=      Convert To String     ${deliverylocation_longitude}
+    ${deliverydate_startdate}=          Convert To String     ${deliverydate_startdate}
+    ${deliverydate_enddate}=            Convert To String     ${deliverydate_enddate}
 
 
     Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
@@ -293,10 +298,17 @@ Login
 
     Execute Javascript    $("#addtenderitemsform-0-classification_id").val("${classification_id}");
     Execute Javascript    $("#addtenderitemsform-0-classification_id").trigger("change");
-    Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_id").val("01.11.81");
-    Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_id").trigger("change");
+
+    Run Keyword If
+        ...  '${additionalClassification_scheme}' == 'ДКПП'
+        ...  Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_dkpp_id").val("${additionalClassification_id}"); $("#addtenderitemsform-0-additionalclassifications_dkpp_id").trigger("change");
+        ...  ELSE IF   '${additionalClassification_scheme}' == 'INN'
+        ...  Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_inn_id").val("${additionalClassification_id}"); $("#addtenderitemsform-0-additionalclassifications_inn_id").trigger("change");
+        ...  ELSE IF   '${additionalClassification_scheme}' == 'ATC'
+        ...  Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_atc_id").val("${additionalClassification_id}"); $("#addtenderitemsform-0-additionalclassifications_atc_id").trigger("change");
 
     Sleep   15
+
     Click Element   xpath=//button[contains(@id, 'add-tender-form-save')]
     Wait Until Element Is Visible       xpath=//td[contains(@id, 'info_tenderID')]   30
 
@@ -304,41 +316,53 @@ Login
     [Return]    ${tender_uaid}
 
 Завантажити документ
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} ==  username
-  ...      ${ARGUMENTS[1]} ==  ${filepath}
-  ...      ${ARGUMENTS[2]} ==  ${tender_uaid}
+  [Arguments]  ${username}  ${filepath}  ${tender_uaid}
+  polonex.Пошук тендера по ідентифікатору   ${username}   ${tender_uaid}
+  Click Element   id=update_auction_btn
+  ###Wait Until Element Is Visible       xpath=//input[contains(@id, "doc_upload_field_biddingDocuments")]   30
+  ###Choose File     xpath=//input[contains(@id, "doc_upload_field_biddingDocuments")]   ${filepath}
+  Wait Until Element Is Visible       id=doc_upload_field_notice   30
+  Choose File     id=doc_upload_field_notice    ${filepath}
+  Sleep   15
+  Click Element   xpath=//button[contains(@id, 'add-tender-form-save')]
+  Wait Until Page Contains  Документи успішно відплавлено до ЦБД  30
 
-      Click Element     id=add_doc_to_auction_btn
-      Sleep   2
-      Choose File       id=auctionfile   ${ARGUMENTS[1]}
-      Sleep   2
-      Click Button      id=submit_add_auction_file_form
-      Sleep   1
-      Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
-      Sleep   2
+Завантажити ілюстрацію
+  [Arguments]  ${username}  ${tender_uaid}  ${filepath}
+  Choose File       id=doc_upload_field_illustration        ${filepath}
 
+Завантажити документ в тендер з типом
+  [Arguments]  ${username}  ${tender_uaid}  ${filepath}  ${documentType}
+  Choose File       id=doc_upload_field_${documentType}        ${filepath}
+
+Завантажити документ в ставку
+  [Arguments]  ${username}  ${path}  ${tender_uaid}  ${doc_type}=documents
+  Sleep   60
+  polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+  Click Element           id=edit_user_bid
+  Sleep   2
+  Choose File             xpath=//input[contains(@id, 'bid_doc_upload_fieldcommercialProposal')]   ${path}
+  sleep   4
+  Click Element           id=submit_add_bid_form
 
 Пошук тендера по ідентифікатору
   [Arguments]  @{ARGUMENTS}
   [Documentation]
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
-
-    Log to console  ${ARGUMENTS[1]}
-    Go to  http://prozorrodev.ga/prozorrotender/tender/sync-all?n=5
-    Sleep  6
-    Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
-    Sleep  2
-    Click Element       name=more-search-btn
-    Sleep  2
-    Input Text          id=tendersearch-tenderid   ${ARGUMENTS[1]}
-    Sleep  2
-    Click Element       name=search-btn
-    Sleep  2
-    Click Element     xpath=(//a[contains(@class, 'auction_detail_btn')])
-    Sleep  1
+  Log to console  ${ARGUMENTS[1]}
+  Go to  http://test.polonex.in.ua/prozorrotender/tender/sync-all?n=5
+  Sleep  6
+  Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
+  Sleep  2
+  Click Element       name=more-search-btn
+  Sleep  2
+  Input Text          id=tendersearch-tenderid   ${ARGUMENTS[1]}
+  Sleep  2
+  Click Element       name=search-btn
+  Sleep  2
+  Click Element     xpath=(//a[contains(@class, 'auction_detail_btn')])
+  Sleep  1
 
 Задати запитання
   [Arguments]  ${username}  ${tender_uaid}  ${question}  ${related_id}
@@ -367,21 +391,16 @@ Login
   [Arguments]  ${username}  ${tender_uaid}  ${lot_id}  ${question}
   Задати запитання  ${username}  ${tender_uaid}  ${question}  ${lot_id}
 
-Відповісти на питання
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} = username
-  ...      ${ARGUMENTS[1]} = ${TENDER_UAID}
-  ...      ${ARGUMENTS[2]} = 0
-  ...      ${ARGUMENTS[3]} = answer_data
-  ${answer}=     Get From Dictionary  ${ARGUMENTS[3].data}  answer
-  Reload Page
-  Click Element                         xpath=//a[contains(@href, '#tab_questions')]
+Відповісти на запитання
+  [Arguments]  ${username}  ${tender_uaid}  ${answer_data}  ${question_id}
+  ${index}=   Get Element Attribute   xpath=//div[contains(text(), '${question_id}')]@id
+  ${index}=   Get Substring   ${index}    2   3
+  Click Element                         xpath=//a[contains(@id, 'add_answer_btn_${index}')]
   Sleep     4
-  Click Element                         xpath=//a[contains(@id, 'add_answer_btn_0')]
-  Sleep     4
-  Input Text                            id=addanswerform-answer        ${answer}
-  Click Element                         id=submit_add_answer_form
+  Input Text                            id=addanswerform-answer        ${answer_data.data.answer}
+  Sleep     2
+  Click Button                        id=submit_add_answer_form
+  Wait Until Page Contains   ${answer_data.data.answer}   10
 
 Оновити сторінку з тендером
     [Arguments]    @{ARGUMENTS}
@@ -395,6 +414,7 @@ Login
   ...      ${ARGUMENTS[0]} ==  ${username}
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
   ...      ${ARGUMENTS[2]} ==  ${field_name}
+  polonex.Пошук тендера по ідентифікатору    ${ARGUMENTS[0]}    ${ARGUMENTS[1]}
   ${return_value}=  run keyword  Отримати інформацію про ${ARGUMENTS[2]}
   [Return]  ${return_value}
 
@@ -457,10 +477,9 @@ Login
 
   Click Element     id=update_auction_btn
   Sleep   2
-
-  ${title}=   Get Text     id=addauctionform-title
-  ${description}=   Get Text    id=addauctionform-description
-  Click Button    id=add-auction-form-save
+  ${title}=   Get Text     id=addtenderform-title
+  ${description}=   Get Text    id=addtenderform-description
+  Click Button    id=add-tender-form-save
   Sleep   2
 
 
@@ -591,7 +610,6 @@ Login
   [return]  ${return_value}
 
 Отримати інформацію про questions[0].title
-  Click Element                       xpath=//a[contains(@href, '#tab_questions')]
   ${return_value}=  Get text          ${locator.questions[0].title}
   [Return]  ${return_value}
 
@@ -604,7 +622,6 @@ Login
   [Return]  ${return_value}
 
 Отримати інформацію про questions[0].answer
-  Click Element                       xpath=//a[contains(@href, '#tab_questions')]
   ${return_value}=  Get text          ${locator.questions[0].answer}
   [Return]  ${return_value}
 
@@ -654,17 +671,6 @@ Login
     [Return]    ${resp}
 
 
-Завантажити документ в ставку
-    [Arguments]  @{ARGUMENTS}
-    [Documentation]
-    ...    ${ARGUMENTS[1]} ==  file
-    ...    ${ARGUMENTS[2]} ==  tenderId
-    Click Element           id=edit_user_bid
-    Sleep   2
-    ##Click Element           id=bid_doc_upload_fieldcommercialProposal
-    Choose File             xpath=//input[contains(@id, 'bid_doc_upload_fieldcommercialProposal')]   ${ARGUMENTS[1]}
-    sleep   4
-    Click Element           id=submit_add_bid_form
 
 Змінити документ в ставці
     [Arguments]  @{ARGUMENTS}
@@ -698,10 +704,10 @@ Login
 
 Отримати інформацію із запитання
   [Arguments]  ${username}  ${tender_uaid}  ${question_id}  ${field_name}
-  polonex.Пошук тендера по ідентифікатору   ${username}   ${tender_uaid}
-  Wait Until Element Is Visible   ${locator.questions[0].${field_name}}
-  ${return_value}=   Get Text   ${locator.questions[0].${field_name}}
-  [return]  ${return_value}
+  ${index}=   Get Element Attribute   xpath=//td[contains(text(), '${question_id}')]@id
+  ${index}=   Get Substring   ${index}    0   4
+  ${return_value}=    Get Text     id=${item_id}${field_name}
+  [Return]  ${return_value}
 
 Отримати інформацію із пропозиції
   [Arguments]  ${username}  ${tender_uaid}  ${field}
