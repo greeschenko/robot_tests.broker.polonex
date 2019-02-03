@@ -8,7 +8,7 @@ Library     polonex_helper.py
 
 
 *** Variables ***
-${sign_in}                                                      id=lbtn-mobile
+${sign_in}                                                      id=loginbtn
 ${login_email}                                                  id=loginform-username
 ${login_pass}                                                   id=loginform-password
 ${prozorropage}                                                 id=prozorropagebtn
@@ -65,7 +65,7 @@ ${locator.questions[0].answer}                                  id=q[0]answer
 
 Login
   [Arguments]  @{ARGUMENTS}
-  Click Element        xpath=//li[contains(@id, 'lbtn-mobile')]/a
+  Click Element        ${sign_in}
   Sleep   2
   Clear Element Text   id=loginform-username
   Input text      ${login_email}      ${USERS.users['${ARGUMENTS[0]}'].login}
@@ -318,9 +318,11 @@ Login
 Завантажити документ
   [Arguments]  ${username}  ${filepath}  ${tender_uaid}
   polonex.Пошук тендера по ідентифікатору   ${username}   ${tender_uaid}
-  Click Element   id=update_auction_btn
+  Click Element   xpath=//a[contains(@id, 'update_auction_btn')]
   ###Wait Until Element Is Visible       xpath=//input[contains(@id, "doc_upload_field_biddingDocuments")]   30
   ###Choose File     xpath=//input[contains(@id, "doc_upload_field_biddingDocuments")]   ${filepath}
+  Sleep   5
+  Execute Javascript  $('html, body').animate({scrollTop: $("#doc_upload_field_notice").offset().top}, 100);
   Wait Until Element Is Visible       id=doc_upload_field_notice   30
   Choose File     id=doc_upload_field_notice    ${filepath}
   Sleep   15
@@ -351,7 +353,7 @@ Login
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
   Log to console  ${ARGUMENTS[1]}
-  Go to  http://test.polonex.in.ua/prozorrotender/tender/sync-all?n=5
+  Go to  http://prozorrodev.ga/prozorrotender/tender/sync-all?n=5
   Sleep  6
   Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
   Sleep  2
@@ -475,7 +477,7 @@ Login
   ...      ${ARGUMENTS[0]} =  username
   ...      ${ARGUMENTS[1]} =  ${TENDER_UAID}
 
-  Click Element     id=update_auction_btn
+  Click Element   xpath=//a[contains(@id, 'update_auction_btn')]
   Sleep   2
   ${title}=   Get Text     id=addtenderform-title
   ${description}=   Get Text    id=addtenderform-description
