@@ -8,7 +8,8 @@ Library     polonex_helper.py
 
 
 *** Variables ***
-${sign_in}                                                      id=loginbtn
+${sign_in}                                                      id=lbtn-mobile
+###${sign_in}                                                      id=loginbtn
 ${login_email}                                                  id=loginform-username
 ${login_pass}                                                   id=loginform-password
 ${prozorropage}                                                 id=prozorropagebtn
@@ -53,6 +54,24 @@ ${locator.questions[0].title}                                   xpath=//div[@id=
 ${locator.questions[0].description}                             xpath=//div[@id="q[0]description"]
 ${locator.questions[0].date}                                    id=q[0]date
 ${locator.questions[0].answer}                                  id=q[0]answer
+
+${locator.milestones[0].code}                                   id=milestones[0]_code
+${locator.milestones[0].title}                                  id=milestones[0]_title
+${locator.milestones[0].percentage}                             id=milestones[0]_percentage
+${locator.milestones[0].duration.days}                          id=milestones[0]_duration_days
+${locator.milestones[0].duration.type}                          id=milestones[0]_duration_type
+
+${locator.milestones[1].code}                                   id=milestones[1]_code
+${locator.milestones[1].title}                                  id=milestones[1]_title
+${locator.milestones[1].percentage}                             id=milestones[1]_percentage
+${locator.milestones[1].duration.days}                          id=milestones[1]_duration_days
+${locator.milestones[1].duration.type}                          id=milestones[1]_duration_type
+
+${locator.milestones[2].code}                                   id=milestones[2]_code
+${locator.milestones[2].title}                                  id=milestones[2]_title
+${locator.milestones[2].percentage}                             id=milestones[2]_percentage
+${locator.milestones[2].duration.days}                          id=milestones[2]_duration_days
+${locator.milestones[2].duration.type}                          id=milestones[2]_duration_type
 
 *** Keywords ***
 Підготувати клієнт для користувача
@@ -170,6 +189,7 @@ Login
 ###        valueAddedTaxIncluded: true
 
 
+    ${mainProcurementCategory}=              Get From Dictionary         ${ARGUMENTS[1].data}                   mainProcurementCategory
     ${title}=                                Get From Dictionary         ${ARGUMENTS[1].data}                   title
     ${description}=                          Get From Dictionary         ${ARGUMENTS[1].data}                   description
     ${minimalstep_amount}=                   Get From Dictionary         ${ARGUMENTS[1].data.minimalStep}       amount
@@ -179,17 +199,20 @@ Login
     ${value_valueaddedtaxincluded}=          Convert To String           ${ARGUMENTS[1].data.value.valueAddedTaxIncluded}
     ${value_valueaddedtaxincluded}=          convert_polonex_string      ${value_valueaddedtaxincluded}
     ${items}=                                Get From Dictionary         ${ARGUMENTS[1].data}                   items
+    ${milestones}=                           Get From Dictionary         ${ARGUMENTS[1].data}                   milestones
     ${item0}=                                Get From List               ${items}                               0
     ${item_description}=                     Get From Dictionary         ${item0}                               description
     ${classification_scheme}=                Get From Dictionary         ${item0.classification}                scheme
     ${classification_description}=           Get From Dictionary         ${item0.classification}                description
     ${classification_id}=                    Get From Dictionary         ${item0.classification}                id
 
-    ${additionalClassifications}=              Get From Dictionary         ${item0}                               additionalClassifications
-    ${additionalClassifications0}=             Get From List               ${additionalClassifications}           0
-    ${additionalClassification_scheme}=        Get From Dictionary         ${additionalClassifications0}          scheme
-    ${additionalClassification_description}=   Get From Dictionary         ${additionalClassifications0}          description
-    ${additionalClassification_id}=            Get From Dictionary         ${additionalClassifications0}          id
+    ${adCls_isset}=  Run Keyword And Return Status  Dictionary Should Contain Key  ${item0}  additionalClassifications
+
+    ${additionalClassifications}=              Run Keyword If  ${adCls_isset}  Get From Dictionary         ${item0}                               additionalClassifications
+    ${additionalClassifications0}=             Run Keyword If  ${adCls_isset}  Get From List               ${additionalClassifications}           0
+    ${additionalClassification_scheme}=        Run Keyword If  ${adCls_isset}  Get From Dictionary         ${additionalClassifications0}          scheme
+    ${additionalClassification_description}=   Run Keyword If  ${adCls_isset}  Get From Dictionary         ${additionalClassifications0}          description
+    ${additionalClassification_id}=            Run Keyword If  ${adCls_isset}  Get From Dictionary         ${additionalClassifications0}          id
 
     ${deliveryaddress_postalcode}=           Get From Dictionary         ${item0.deliveryAddress}               postalCode
     ${deliveryaddress_countryname}=          Get From Dictionary         ${item0.deliveryAddress}               countryName
@@ -248,6 +271,7 @@ Login
     ${deliverylocation_longitude}=      Convert To String     ${deliverylocation_longitude}
     ${deliverydate_startdate}=          Convert To String     ${deliverydate_startdate}
     ${deliverydate_enddate}=            Convert To String     ${deliverydate_enddate}
+    ${quantity}=                        Convert To String     ${quantity}
 
 
     Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
@@ -261,6 +285,8 @@ Login
     Select From List    xpath=//select[@id="addtenderform-minimalstep_valueaddedtaxincluded"]    ${value_valueaddedtaxincluded}
     Select From List    xpath=//select[@id="addtenderform-procuringentity_kind"]    ${procuringEntity_kind}
     Select From List    xpath=//select[@id="addtenderitemsform-0-unit_code"]    ${unit_code}
+    Select From List    id=addtenderform-mainprocurementcategory  ${mainProcurementCategory}
+
 
     Input text      id=addtenderform-title  ${title}
     Input text      id=addtenderform-description  ${description}
@@ -307,7 +333,9 @@ Login
         ...  ELSE IF   '${additionalClassification_scheme}' == 'ATC'
         ...  Execute Javascript    $("#addtenderitemsform-0-additionalclassifications_atc_id").val("${additionalClassification_id}"); $("#addtenderitemsform-0-additionalclassifications_atc_id").trigger("change");
 
-    Sleep   15
+    Sleep   5
+
+    polonex.Додати майлстоуни  ${milestones}
 
     Click Element   xpath=//button[contains(@id, 'add-tender-form-save')]
     Wait Until Element Is Visible       xpath=//td[contains(@id, 'info_tenderID')]   30
@@ -315,19 +343,50 @@ Login
     ${tender_uaid}=     Get Text        xpath=//td[contains(@id, 'info_tenderID')]
     [Return]    ${tender_uaid}
 
+Додати майлстоуни
+    [Arguments]  ${milestones}
+    ${milestones_length}=   Get Length   ${milestones}
+    :FOR   ${index}   IN RANGE   ${milestones_length}
+    \   polonex.Додати майлстоун   ${milestones[${index}]}     ${index}
+
+Додати майлстоун
+    [Arguments]  ${milestones}  ${index}
+    ${index}=  Convert To Integer  ${index}
+    Run Keyword If  ${index} != 0   Click Element   id=milestones_list_add_btn
+    Run Keyword If  ${index} != 0   Sleep           4
+    Execute Javascript  $('html, body').animate({scrollTop: $("#addtendermilestonesform-"+${index}+"-title").offset().top}, 100);
+
+    Select From List  id=addtendermilestonesform-${index}-title             ${milestones.title}
+    Select From List  id=addtendermilestonesform-${index}-code              ${milestones.code}
+    Select From List  id=addtendermilestonesform-${index}-duration_type     ${milestones.duration.type}
+
+
+    ${dscr_status}=  Run Keyword And Return Status  Dictionary Should Contain Key  ${milestones}  description
+
+    Run Keyword If  ${dscr_status}  Input text  id=addtendermilestonesform-${index}-description  ${milestones.description}
+
+    ${percentage}=  Convert To String  ${milestones.percentage}
+    ${duration_days}=  Convert To String  ${milestones.duration.days}
+    ${sequencenumber}=  Convert To String  ${milestones.sequenceNumber}
+
+    Input text  id=addtendermilestonesform-${index}-percentage  ${percentage}
+    Input text  id=addtendermilestonesform-${index}-duration_days  ${duration_days}
+    Input text  id=addtendermilestonesform-${index}-sequencenumber  ${sequencenumber}
+
 Завантажити документ
   [Arguments]  ${username}  ${filepath}  ${tender_uaid}
   polonex.Пошук тендера по ідентифікатору   ${username}   ${tender_uaid}
   Click Element   xpath=//a[contains(@id, 'update_auction_btn')]
   ###Wait Until Element Is Visible       xpath=//input[contains(@id, "doc_upload_field_biddingDocuments")]   30
   ###Choose File     xpath=//input[contains(@id, "doc_upload_field_biddingDocuments")]   ${filepath}
-  Sleep   5
+  Sleep  5
   Execute Javascript  $('html, body').animate({scrollTop: $("#doc_upload_field_notice").offset().top}, 100);
-  Wait Until Element Is Visible       id=doc_upload_field_notice   30
+  Sleep  5
+  ###Wait Until Element Is Visible       id=doc_upload_field_notice   30
   Choose File     id=doc_upload_field_notice    ${filepath}
   Sleep   15
   Click Element   xpath=//button[contains(@id, 'add-tender-form-save')]
-  Wait Until Page Contains  Документи успішно відплавлено до ЦБД  30
+  Wait Until Page Contains  Документи успішно відплавлено до ЦБД  60
 
 Завантажити ілюстрацію
   [Arguments]  ${username}  ${tender_uaid}  ${filepath}
@@ -353,7 +412,7 @@ Login
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
   Log to console  ${ARGUMENTS[1]}
-  Go to  http://prozorrodev.ga/prozorrotender/tender/sync-all?n=5
+  Go to  http://test.polonex.in.ua/prozorrotender/tender/sync-all?n=5
   Sleep  6
   Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
   Sleep  2
@@ -627,6 +686,74 @@ Login
   ${return_value}=  Get text          ${locator.questions[0].answer}
   [Return]  ${return_value}
 
+
+Отримати інформацію про milestones[0].code
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[0].code
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[0].title
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[0].title
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[0].percentage
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[0].percentage
+  ${return_value}=  Convert To Integer  ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[0].duration.days
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[0].duration.days
+  ${return_value}=  Convert To Integer  ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[0].duration.type
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[0].duration.type
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[1].code
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[1].code
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[1].title
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[1].title
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[1].percentage
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[1].percentage
+  ${return_value}=  Convert To Integer  ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[1].duration.days
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[1].duration.days
+  ${return_value}=  Convert To Integer  ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[1].duration.type
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[1].duration.type
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[2].code
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[2].code
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[2].title
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[2].title
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[2].percentage
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[2].percentage
+  ${return_value}=  Convert To Integer  ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[2].duration.days
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[2].duration.days
+  ${return_value}=  Convert To Integer  ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про milestones[2].duration.type
+  ${return_value}=   Отримати текст із поля і показати на сторінці   milestones[2].duration.type
+  [Return]  ${return_value}
+
+
 Подати цінову пропозицію
   [Arguments]  @{ARGUMENTS}
   [Documentation]
@@ -731,13 +858,29 @@ Login
     ${result}=                  Get Element Attribute               id=show_private_btn@href
     [Return]   ${result}
 
+Завантажити документ рішення кваліфікаційної комісії
+  [Arguments]  ${username}  ${document}  ${tender_uaid}  ${award_num}
+  polonex.Пошук тендера по ідентифікатору   ${username}  ${tender_uaid}
+  Click Element   xpath=//a[contains(@id, 'update_auction_btn')]
+  Sleep  5
+  Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
+  Click Element   xpath=//a[contains(@id, 'upload_precvalification')]
+  Sleep  5
+  Choose File     id=award[${award_num}]_upload_field_notice    ${document}
+  Sleep   15
+  Click Element   xpath=//button[contains(@id, 'send_upload_precvalification')]
+  Wait Until Page Contains  Документи успішно відплавлено до ЦБД  60
+
 Підтвердити постачальника
   [Documentation]
   ...      [Arguments] Username, tender uaid and number of the award to confirm
   ...      [Return] Nothing
   [Arguments]  ${username}  ${tender_uaid}  ${award_num}
+  polonex.Пошук тендера по ідентифікатору   ${username}  ${tender_uaid}
+  Click Element   xpath=//a[contains(@id, 'update_auction_btn')]
+  Sleep  5
+  Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
   sleep  5
-  Capture Page Screenshot
   Click Element  id=cwalificate_winer_btn
 
 Підтвердити підписання контракту
@@ -749,3 +892,5 @@ Login
   sleep  10
   Capture Page Screenshot
   Click Element  id=signed_contract_btn
+
+
