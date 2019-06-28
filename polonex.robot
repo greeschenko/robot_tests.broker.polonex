@@ -73,6 +73,9 @@ ${locator.milestones[2].percentage}                             id=milestones[2]
 ${locator.milestones[2].duration.days}                          id=milestones[2]_duration_days
 ${locator.milestones[2].duration.type}                          id=milestones[2]_duration_type
 
+
+${locator.awards[0].complaintPeriod.endDate}                    xpath=//td[contains(@class, 'complaintPeriodData_wrap')]/span[contains(@class, 'endDate')]
+
 *** Keywords ***
 Підготувати клієнт для користувача
   [Arguments]     @{ARGUMENTS}
@@ -754,6 +757,12 @@ Login
   [Return]  ${return_value}
 
 
+Отримати інформацію про awards[0].complaintPeriod.endDate
+  Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
+  ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].complaintPeriod.endDate
+  [Return]  ${return_value}
+
+
 Подати цінову пропозицію
   [Arguments]  @{ARGUMENTS}
   [Documentation]
@@ -861,15 +870,14 @@ Login
 Завантажити документ рішення кваліфікаційної комісії
   [Arguments]  ${username}  ${document}  ${tender_uaid}  ${award_num}
   polonex.Пошук тендера по ідентифікатору   ${username}  ${tender_uaid}
-  Click Element   xpath=//a[contains(@id, 'update_auction_btn')]
   Sleep  5
   Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
-  Click Element   xpath=//a[contains(@id, 'upload_precvalification')]
+  Click Element   id=vendor_confirm_btn
   Sleep  5
-  Choose File     id=award[${award_num}]_upload_field_notice    ${document}
+  Choose File     id=award_doc_upload_field_vendorConfirm    ${document}
   Sleep   15
-  Click Element   xpath=//button[contains(@id, 'send_upload_precvalification')]
-  Wait Until Page Contains  Документи успішно відплавлено до ЦБД  60
+  ###Click Element   id=submit_vendor_confirm
+  ###Wait Until Page Contains  Документи успішно відплавлено до ЦБД  60
 
 Підтвердити постачальника
   [Documentation]
@@ -877,11 +885,22 @@ Login
   ...      [Return] Nothing
   [Arguments]  ${username}  ${tender_uaid}  ${award_num}
   polonex.Пошук тендера по ідентифікатору   ${username}  ${tender_uaid}
-  Click Element   xpath=//a[contains(@id, 'update_auction_btn')]
   Sleep  5
-  Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
-  sleep  5
-  Click Element  id=cwalificate_winer_btn
+  Click Element   id=vendor_confirm_btn
+  Sleep  5
+  Click Element   id=submit_vendor_confirm
+  Wait Until Page Contains  Документи успішно відплавлено до ЦБД  30
+
+Редагувати угоду
+  [Arguments]  ${userName}  ${tenderId}  ${awardIndex}  ${fieldName}  ${value}
+  polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+  ${valueAmount}=    Convert To String    ${value}
+  Sleep  5
+  Click Element  id=edit_contract_btn
+  Sleep  5
+  Input Text  id=contracteditform-contracts_value  ${valueAmount}
+  Click Element  id=submit_edit_contract
+  Wait Until Page Contains  Договір змінено успішно  30
 
 Підтвердити підписання контракту
   [Documentation]
@@ -890,7 +909,6 @@ Login
   [Arguments]  ${username}  ${tender_uaid}  ${contract_num}
   polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
   sleep  10
-  Capture Page Screenshot
-  Click Element  id=signed_contract_btn
-
+  Click Element  id=sign_contract_btn
+  Wait Until Page Contains  Договір підписано успішно  30
 
