@@ -74,7 +74,7 @@ ${locator.milestones[2].duration.days}                          id=milestones[2]
 ${locator.milestones[2].duration.type}                          id=milestones[2]_duration_type
 
 
-${locator.awards[0].complaintPeriod.endDate}                    xpath=//td[contains(@class, 'complaintPeriodData_wrap')]/span[contains(@class, 'endDate')]
+${locator.awards[0].complaintPeriod.endDate}                    xpath=//div[contains(@class, 'complaintPeriodData_wrap')]/span[contains(@class, 'endDate')]
 
 *** Keywords ***
 Підготувати клієнт для користувача
@@ -872,10 +872,10 @@ Login
   polonex.Пошук тендера по ідентифікатору   ${username}  ${tender_uaid}
   Sleep  5
   Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
+  Sleep  5
   Click Element   id=vendor_confirm_btn
   Sleep  5
   Choose File     id=award_doc_upload_field_vendorConfirm    ${document}
-  Sleep   15
   ###Click Element   id=submit_vendor_confirm
   ###Wait Until Page Contains  Документи успішно відплавлено до ЦБД  60
 
@@ -884,21 +884,25 @@ Login
   ...      [Arguments] Username, tender uaid and number of the award to confirm
   ...      [Return] Nothing
   [Arguments]  ${username}  ${tender_uaid}  ${award_num}
-  polonex.Пошук тендера по ідентифікатору   ${username}  ${tender_uaid}
+  polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+  Sleep  5
+  Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
   Sleep  5
   Click Element   id=vendor_confirm_btn
   Sleep  5
   Click Element   id=submit_vendor_confirm
-  Wait Until Page Contains  Документи успішно відплавлено до ЦБД  30
+  Wait Until Page Contains  [Переможець]  30
 
 Редагувати угоду
-  [Arguments]  ${userName}  ${tenderId}  ${awardIndex}  ${fieldName}  ${value}
+  [Arguments]  ${username}  ${tender_uaid}  ${awardIndex}  ${fieldName}  ${value}
   polonex.Пошук тендера по ідентифікатору  ${username}  ${tender_uaid}
+  ${dateSigned}=     create_fake_date
   ${valueAmount}=    Convert To String    ${value}
   Sleep  5
   Click Element  id=edit_contract_btn
   Sleep  5
   Input Text  id=contracteditform-contracts_value  ${valueAmount}
+  Input Text  id=contracteditform-datesigned  ${dateSigned}
   Click Element  id=submit_edit_contract
   Wait Until Page Contains  Договір змінено успішно  30
 

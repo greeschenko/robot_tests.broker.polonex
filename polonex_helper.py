@@ -46,6 +46,7 @@ def convert_polonex_string(string):
             u'Закупівля не відбулась':    'unsuccessful',
             u'Завершена закупівля':       'complete',
             u'Відмінена закупівля':       'cancelled',
+            u'Визначення переможця':      'active.awarded',
             u'Грн.':                      'UAH',
             u'(включно з ПДВ)':           True,
             u'(без ПДВ)':                 False,
