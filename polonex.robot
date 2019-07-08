@@ -14,6 +14,7 @@ ${login_email}                                                  id=loginform-use
 ${login_pass}                                                   id=loginform-password
 ${prozorropage}                                                 id=prozorropagebtn
 ${locator.title}                                                id=auction_title
+${locator.mainProcurementCategory}                              id=info_mainProcurementCategory
 ${locator.dgfID}                                                id=info_dgfID
 ${locator.status}                                               id=auction_status_name
 ${locator.description}                                          id=info_description
@@ -50,6 +51,24 @@ ${locator.items[0].deliveryDate.endDate}                        id=items[0]_deli
 ${locator.items[0].classification.scheme}                       id=items[0]_classification_scheme
 ${locator.items[0].classification.id}                           id=items[0]_classification_id
 ${locator.items[0].classification.description}                  id=items[0]_classification_description
+
+${locator.items[1].quantity}                                    id=items[1]_quantity
+${locator.items[1].description}                                 id=items[1]_description
+${locator.items[1].unit.code}                                   id=items[1]_unit_code
+${locator.items[1].unit.name}                                   id=items[1]_unit_name
+${locator.items[1].deliveryAddress.postalCode}                  id=items[1]_deliveryAddress_postalCode
+${locator.items[1].deliveryAddress.countryName}                 id=items[1]_deliveryAddress_countryName
+${locator.items[1].deliveryAddress.region}                      id=items[1]_deliveryAddress_region
+${locator.items[1].deliveryAddress.locality}                    id=items[1]_deliveryAddress_locality
+${locator.items[1].deliveryAddress.streetAddress}               id=items[1]_deliveryAddress_streetAddress
+${locator.items[1].deliveryLocation.latitude}                   id=items[1]_deliveryLocation_latitude
+${locator.items[1].deliveryLocation.longitude}                  id=items[1]_deliveryLocation_longitude
+${locator.items[1].deliveryDate.startDate}                      id=items[1]_deliveryDate_startDate
+${locator.items[1].deliveryDate.endDate}                        id=items[1]_deliveryDate_endDate
+${locator.items[1].classification.scheme}                       id=items[1]_classification_scheme
+${locator.items[1].classification.id}                           id=items[1]_classification_id
+${locator.items[1].classification.description}                  id=items[1]_classification_description
+
 ${locator.questions[0].title}                                   xpath=//div[@id="q[0]title"]
 ${locator.questions[0].description}                             xpath=//div[@id="q[0]description"]
 ${locator.questions[0].date}                                    id=q[0]date
@@ -75,6 +94,65 @@ ${locator.milestones[2].duration.type}                          id=milestones[2]
 
 
 ${locator.awards[0].complaintPeriod.endDate}                    xpath=//div[contains(@class, 'complaintPeriodData_wrap')]/span[contains(@class, 'endDate')]
+
+${locator.contracts[0].status}                                  id=contract_status
+
+
+
+
+### for plans
+${locator.tender.procurementMethodType}          id=tender_procurementMethodType
+${locator.budget.amount}                         id=budget_amount
+${locator.budget.description}                    id=budget_description
+${locator.budget.currency}                       id=budget_currency
+${locator.budget.id}                             id=budget_id
+${locator.budget.project.id}                     id=budget_project_id
+${locator.budget.project.name}                   id=budget_project_name
+${locator.procuringEntity.identifier.scheme}     id=org_ident_scheme
+${locator.procuringEntity.identifier.id}         id=org_ident_id
+${locator.procuringEntity.identifier.legalName}  id=org_ident_legalName
+${locator.classification.description}            id=plan_classification_description
+${locator.classification.scheme}                 id=plan_classification_scheme
+${locator.classification.id}                     id=plan_classification_id
+${locator.tender.tenderPeriod.startDate}         id=xpath=//td[contains(@id, 'tender_tenderPeriod')]/span[contains(@class, 'startDate')]
+
+### for reporting
+
+${locator.title_en}  id=info_title_en
+${locator.title_ru}  id=info_title_ru
+${locator.description_en}  id=info_description_en
+${locator.description_ru}  id=info_description_ru
+${locator.procuringEntity.address.countryName}  id=main_countryName
+${locator.procuringEntity.address.postalCode}  id=main_postalCode
+${locator.procuringEntity.address.region}  id=main_region
+${locator.procuringEntity.address.streetAddress}  id=main_streetAddress
+${locator.procuringEntity.contactPoint.name}  id=org_contact_name
+${locator.procuringEntity.contactPoint.telephone}  id=org_contact_telephone
+${locator.procuringEntity.contactPoint.url}  id=org_contact_url
+${locator.procuringEntity.identifier.legalName}  id=org_ident_legalName
+${locator.procuringEntity.identifier.scheme}  id=org_ident_scheme
+${locator.procuringEntity.identifier.id}  id=org_ident_id
+###${locator.items[0].deliveryAddress.countryName_ru}  id=
+###${locator.items[0].deliveryAddress.countryName_en}  id=
+###${locator.documents[0].title}  id=
+###${locator.awards[0].documents[0].title}  id=
+${locator.awards[0].status}  id=award_status_0
+${locator.awards[0].suppliers[0].address.countryName'}  id=award_suppliers_0_countryName
+###${locator.awards[0].suppliers[0].address.locality}  id=
+${locator.awards[0].suppliers[0].address.postalCode}  id=award_suppliers_0_postalCode
+${locator.awards[0].suppliers[0].address.region}  id=award_suppliers_0_region
+${locator.awards[0].suppliers[0].address.streetAddress}  id=award_suppliers_0_streetAddress
+${locator.awards[0].suppliers[0].contactPoint.telephone}  id=award_suppliers_0_telephone
+${locator.awards[0].suppliers[0].contactPoint.name}  id=award_suppliers_0_name
+${locator.awards[0].suppliers[0].contactPoint.email}  id=award_suppliers_0_email
+${locator.awards[0].suppliers[0].identifier.scheme}  id=award_suppliers_0_idnt_scheme
+${locator.awards[0].suppliers[0].identifier.legalName}  id=award_suppliers_0_idnt_legalName
+${locator.awards[0].suppliers[0].identifier.id}  id=award_suppliers_0_idnt_id
+${locator.awards[0].suppliers[0].name}  id=award_suppliers_0_name
+${locator.awards[0].value.valueAddedTaxIncluded}  id=award_0_value_tax
+${locator.awards[0].value.currency}  id=award_0_value_currency
+${locator.awards[0].value.amount}  id=award_0_value_amount
+
 
 *** Keywords ***
 Підготувати клієнт для користувача
@@ -415,7 +493,7 @@ Login
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
   Log to console  ${ARGUMENTS[1]}
-  Go to  http://test.polonex.in.ua/prozorrotender/tender/sync-all?n=5
+  Go to  http://prozorrodev.ga/prozorrotender/tender/sync-all?n=5
   Sleep  6
   Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
   Sleep  2
@@ -760,8 +838,19 @@ Login
 Отримати інформацію про awards[0].complaintPeriod.endDate
   Execute Javascript  $('html, body').animate({scrollTop: $("#awards_count").offset().top}, 100);
   ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].complaintPeriod.endDate
+  ${return_value}=   convert_polonex_date_to_iso_format   ${return_value}
+  ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
   [Return]  ${return_value}
 
+Отримати інформацію про mainProcurementCategory
+  ${return_value}=   Отримати текст із поля і показати на сторінці   mainProcurementCategory
+  ${return_value}=   convert_polonex_string     ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про contracts[0].status
+  ${return_value}=   Отримати текст із поля і показати на сторінці   contracts[0].status
+  ${return_value}=   convert_polonex_string     ${return_value}
+  [Return]  ${return_value}
 
 Подати цінову пропозицію
   [Arguments]  @{ARGUMENTS}
@@ -915,4 +1004,315 @@ Login
   sleep  10
   Click Element  id=sign_contract_btn
   Wait Until Page Contains  Договір підписано успішно  30
+
+Оновити сторінку з планом
+  [Arguments]  ${userName}  ${planId}
+  polonex.Пошук плану по ідентифікатору   ${userName}   ${planId}
+
+Пошук плану по ідентифікатору
+    [Arguments]  ${userName}  ${planId}
+    Log to console  ${planId}
+    Go to  http://prozorrodev.ga/prozorrotender/plan/sync-all?n=5
+    Sleep  6
+    Go to   ${USERS.users['${userName}'].homepage}
+    Sleep  2
+    Click Element       id=planpage_btn
+    Sleep  2
+    Input Text          id=plansearch-all   ${planId}
+    Sleep  2
+    Click Element       name=search-btn
+    Sleep  2
+    Click Element     xpath=(//a[contains(@class, 'auction_detail_btn')])
+    Sleep  1
+
+Отримати інформацію із плану
+  [Arguments]  ${userName}  ${planId}  ${fieldName}
+
+  ##Run keyword And Return If  '${fieldName}' == 'budget.currency'      Get Text  xpath=//span[@data-field='budget.currency']
+  ##Run keyword And Return If  '${fieldName}' == 'budget.description'   Get Text  xpath=//h1[@id='tenderTitle']
+  ##Run keyword And Return If  '${fieldName}' == 'budget.project.name'  Get Text  xpath=//span[@data-field='budget.project.name']
+  ##Run keyword And Return If  '${fieldName}' == 'tender.tenderPeriod.startDate'         Get Element Attribute  xpath=//span[@data-field='tender.tenderPeriod.startDate']@data-value
+  ##Run keyword And Return If  '${fieldName}' == 'procuringEntity.identifier.legalName'  Отримати інформацію про plan.${fieldName}
+  ##Run Keyword And Return If  'items' in '${fieldName}'  Отримати інформацію із предмету в плані  ${userName}  ${planId}  ${fieldName}
+  ##Run keyword And Return If  '${fieldName}' == 'classification.id'           Get Text  xpath=//div[contains(@class, 'tender_head ')]//span[@class='classification-id']
+  ##Run keyword And Return If  '${fieldName}' == 'classification.scheme'       Get Text  xpath=//div[contains(@class, 'tender_head ')]//span[@class='classification-scheme']
+  ##Run keyword And Return If  '${fieldName}' == 'classification.description'  Get Text  xpath=//div[contains(@class, 'tender_head ')]//span[@class='classification-description']
+
+  Run Keyword And Return   Отримати інформацію про ${fieldName}
+
+Отримати інформацію про tender.procurementMethodType
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   tender.procurementMethodType
+    [Return]  ${return_value}
+
+Отримати інформацію про budget.amount
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   budget.amount
+    [Return]  ${return_value}
+
+Отримати інформацію про budget.description
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   budget.description
+    [Return]  ${return_value}
+
+Отримати інформацію про budget.currency
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   budget.currency
+    [Return]  ${return_value}
+
+Отримати інформацію про budget.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   budget.id
+    [Return]  ${return_value}
+
+Отримати інформацію про budget.project.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   budget.project.id
+    [Return]  ${return_value}
+
+Отримати інформацію про budget.project.name
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   budget.project.name
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.identifier.scheme
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.scheme
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.identifier.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.id
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.identifier.legalName
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.legalName
+    [Return]  ${return_value}
+
+Отримати інформацію про classification.description
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   classification.description
+    [Return]  ${return_value}
+
+Отримати інформацію про classification.scheme
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   classification.scheme
+    [Return]  ${return_value}
+
+Отримати інформацію про classification.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   classification.id
+    [Return]  ${return_value}
+
+Отримати інформацію про tender.tenderPeriod.startDate
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   tender.tenderPeriod.startDate
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].quantity
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].quantity
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryDate.endDate
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].deliveryDate.endDate
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].unit.code
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].unit.code
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].unit.name
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].unit.name
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].classification.description
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].classification.description
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].classification.scheme
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].classification.scheme
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].classification.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].classification.id
+    [Return]  ${return_value}
+
+### for reporting
+Отримати інформацію про title_en
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   title_en
+    [Return]  ${return_value}
+
+Отримати інформацію про title_ru
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   title_ru
+    [Return]  ${return_value}
+
+Отримати інформацію про description_en
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   description_en
+    [Return]  ${return_value}
+
+Отримати інформацію про description_ru
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   description_ru
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.address.countryName
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.address.countryName
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.address.postalCode
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.address.postalCode
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.address.region
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.address.region
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.address.streetAddress
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.address.streetAddress
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.contactPoint.name
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.contactPoint.name
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.contactPoint.telephone
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.contactPoint.telephone
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.contactPoint.url
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.contactPoint.url
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.identifier.legalName
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.legalName
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.identifier.scheme
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.scheme
+    [Return]  ${return_value}
+
+Отримати інформацію про procuringEntity.identifier.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.id
+    [Return]  ${return_value}
+
+Отримати інформацію про items[0].deliveryAddress.countryName_ru
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryAddress.countryName_ru
+    [Return]  ${return_value}
+
+Отримати інформацію про items[0].deliveryAddress.countryName_en
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryAddress.countryName_en
+    [Return]  ${return_value}
+
+Отримати інформацію про documents[0].title
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   documents[0].title
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].documents[0].title
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].documents[0].title
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].status
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].status
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].address.countryName'
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].address.countryName'
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].address.locality
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].address.locality
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].address.postalCode
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].address.postalCode
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].address.region
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].address.region
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].address.streetAddress
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].address.streetAddress
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].contactPoint.telephone
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].contactPoint.telephone
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].contactPoint.name
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].contactPoint.name
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].contactPoint.email
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].contactPoint.email
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].identifier.scheme
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].identifier.scheme
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].identifier.legalName
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].identifier.legalName
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].identifier.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].identifier.id
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].suppliers[0].name
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].name
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].value.valueAddedTaxIncluded
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].value.valueAddedTaxIncluded
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].value.currency
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].value.currency
+    [Return]  ${return_value}
+
+Отримати інформацію про awards[0].value.amount
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].value.amount
+    [Return]  ${return_value}
 
