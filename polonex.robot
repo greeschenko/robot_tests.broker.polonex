@@ -41,6 +41,8 @@ ${locator.items[0].unit.code}                                   id=items[0]_unit
 ${locator.items[0].unit.name}                                   id=items[0]_unit_name
 ${locator.items[0].deliveryAddress.postalCode}                  id=items[0]_deliveryAddress_postalCode
 ${locator.items[0].deliveryAddress.countryName}                 id=items[0]_deliveryAddress_countryName
+${locator.items[0].deliveryAddress.countryName_en}              id=items[0]_deliveryAddress_countryName_en
+${locator.items[0].deliveryAddress.countryName_ru}              id=items[0]_deliveryAddress_countryName_ru
 ${locator.items[0].deliveryAddress.region}                      id=items[0]_deliveryAddress_region
 ${locator.items[0].deliveryAddress.locality}                    id=items[0]_deliveryAddress_locality
 ${locator.items[0].deliveryAddress.streetAddress}               id=items[0]_deliveryAddress_streetAddress
@@ -58,6 +60,8 @@ ${locator.items[1].unit.code}                                   id=items[1]_unit
 ${locator.items[1].unit.name}                                   id=items[1]_unit_name
 ${locator.items[1].deliveryAddress.postalCode}                  id=items[1]_deliveryAddress_postalCode
 ${locator.items[1].deliveryAddress.countryName}                 id=items[1]_deliveryAddress_countryName
+${locator.items[1].deliveryAddress.countryName_en}              id=items[1]_deliveryAddress_countryName_en
+${locator.items[1].deliveryAddress.countryName_ru}              id=items[1]_deliveryAddress_countryName_ru
 ${locator.items[1].deliveryAddress.region}                      id=items[1]_deliveryAddress_region
 ${locator.items[1].deliveryAddress.locality}                    id=items[1]_deliveryAddress_locality
 ${locator.items[1].deliveryAddress.streetAddress}               id=items[1]_deliveryAddress_streetAddress
@@ -108,30 +112,31 @@ ${locator.budget.currency}                       id=budget_currency
 ${locator.budget.id}                             id=budget_id
 ${locator.budget.project.id}                     id=budget_project_id
 ${locator.budget.project.name}                   id=budget_project_name
-${locator.procuringEntity.identifier.scheme}     id=org_ident_scheme
-${locator.procuringEntity.identifier.id}         id=org_ident_id
-${locator.procuringEntity.identifier.legalName}  id=org_ident_legalName
+${locator.procuringEntity.identifier.scheme}     id=org_idnt_scheme
+${locator.procuringEntity.identifier.id}         id=org_idnt_id
+${locator.procuringEntity.identifier.legalName}  id=org_idnt_legalName
 ${locator.classification.description}            id=plan_classification_description
 ${locator.classification.scheme}                 id=plan_classification_scheme
 ${locator.classification.id}                     id=plan_classification_id
-${locator.tender.tenderPeriod.startDate}         id=xpath=//td[contains(@id, 'tender_tenderPeriod')]/span[contains(@class, 'startDate')]
+${locator.tender.tenderPeriod.startDate}         xpath=//td[contains(@id, 'tender_tenderPeriod')]/span[contains(@class, 'startDate')]
 
 ### for reporting
+
+
+${locator.procuringEntity.address.countryName}       id=org_countryName
+${locator.procuringEntity.address.postalCode}        id=org_postalCode
+${locator.procuringEntity.address.region}            id=org_region
+${locator.procuringEntity.address.streetAddress}     id=org_streetAddress
+${locator.procuringEntity.address.locality}          id=org_locality
+
+${locator.procuringEntity.contactPoint.name}         id=org_contact_name
+${locator.procuringEntity.contactPoint.telephone}    id=org_contact_telephone
+${locator.procuringEntity.contactPoint.url}          id=org_contact_url
 
 ${locator.title_en}  id=info_title_en
 ${locator.title_ru}  id=info_title_ru
 ${locator.description_en}  id=info_description_en
 ${locator.description_ru}  id=info_description_ru
-${locator.procuringEntity.address.countryName}  id=main_countryName
-${locator.procuringEntity.address.postalCode}  id=main_postalCode
-${locator.procuringEntity.address.region}  id=main_region
-${locator.procuringEntity.address.streetAddress}  id=main_streetAddress
-${locator.procuringEntity.contactPoint.name}  id=org_contact_name
-${locator.procuringEntity.contactPoint.telephone}  id=org_contact_telephone
-${locator.procuringEntity.contactPoint.url}  id=org_contact_url
-${locator.procuringEntity.identifier.legalName}  id=org_ident_legalName
-${locator.procuringEntity.identifier.scheme}  id=org_ident_scheme
-${locator.procuringEntity.identifier.id}  id=org_ident_id
 ###${locator.items[0].deliveryAddress.countryName_ru}  id=
 ###${locator.items[0].deliveryAddress.countryName_en}  id=
 ###${locator.documents[0].title}  id=
@@ -140,11 +145,13 @@ ${locator.awards[0].status}  id=award_status_0
 ${locator.awards[0].suppliers[0].address.countryName'}  id=award_suppliers_0_countryName
 ###${locator.awards[0].suppliers[0].address.locality}  id=
 ${locator.awards[0].suppliers[0].address.postalCode}  id=award_suppliers_0_postalCode
+${locator.awards[0].suppliers[0].address.countryName}  id=award_suppliers_0_countryName
 ${locator.awards[0].suppliers[0].address.region}  id=award_suppliers_0_region
 ${locator.awards[0].suppliers[0].address.streetAddress}  id=award_suppliers_0_streetAddress
-${locator.awards[0].suppliers[0].contactPoint.telephone}  id=award_suppliers_0_telephone
-${locator.awards[0].suppliers[0].contactPoint.name}  id=award_suppliers_0_name
-${locator.awards[0].suppliers[0].contactPoint.email}  id=award_suppliers_0_email
+${locator.awards[0].suppliers[0].address.locality}  id=award_suppliers_0_locality
+${locator.awards[0].suppliers[0].contactPoint.telephone}  id=award_suppliers_0_contact_telephone
+${locator.awards[0].suppliers[0].contactPoint.name}  id=award_suppliers_0_contact_name
+${locator.awards[0].suppliers[0].contactPoint.email}  id=award_suppliers_0_contact_email
 ${locator.awards[0].suppliers[0].identifier.scheme}  id=award_suppliers_0_idnt_scheme
 ${locator.awards[0].suppliers[0].identifier.legalName}  id=award_suppliers_0_idnt_legalName
 ${locator.awards[0].suppliers[0].identifier.id}  id=award_suppliers_0_idnt_id
@@ -493,7 +500,7 @@ Login
   ...      ${ARGUMENTS[0]} ==  username
   ...      ${ARGUMENTS[1]} ==  ${tender_uaid}
   Log to console  ${ARGUMENTS[1]}
-  Go to  http://prozorrodev.ga/prozorrotender/tender/sync-all?n=5
+  Go to  http://prozorrodev.ga/prozorrotender/tender/get-all?n=5
   Sleep  6
   Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
   Sleep  2
@@ -625,20 +632,6 @@ Login
   Sleep   2
 
 
-Отримати інформацію про items[0].quantity
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].quantity
-  ${return_value}=   Convert To Number   ${return_value}
-  [Return]  ${return_value}
-
-Отримати інформацію про items[0].unit.code
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.code
-  ${return_value}=   Convert To String     ${return_value}
-  [Return]  ${return_value}
-
-Отримати інформацію про items[0].unit.name
-  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.name
-  ${return_value}=   Convert To String     ${return_value}
-  [Return]   ${return_value}
 
 Отримати інформацію про value.currency
   ${return_value}=   Отримати текст із поля і показати на сторінці  value.currency
@@ -696,6 +689,21 @@ Login
   ${return_value}=   add_timezone_to_date   ${return_value.split('.')[0]}
   [Return]  ${return_value}
 
+Отримати інформацію про items[0].quantity
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].quantity
+  ${return_value}=   Convert To Number   ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про items[0].unit.code
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.code
+  ${return_value}=   Convert To String     ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про items[0].unit.name
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.name
+  ${return_value}=   Convert To String     ${return_value}
+  [Return]   ${return_value}
+
 Отримати інформацію про items[0].description
   ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].description
   [Return]  ${return_value}
@@ -750,6 +758,96 @@ Login
   ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryLocation.longitude
   ${return_value}=   Convert To Number   ${return_value}
   [return]  ${return_value}
+
+Отримати інформацію про items[0].deliveryAddress.countryName_ru
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryAddress.countryName_ru
+    [Return]  ${return_value}
+
+Отримати інформацію про items[0].deliveryAddress.countryName_en
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryAddress.countryName_en
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].quantity
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].quantity
+  ${return_value}=   Convert To Number   ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].unit.code
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.code
+  ${return_value}=   Convert To String     ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].unit.name
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].unit.name
+  ${return_value}=   Convert To String     ${return_value}
+  [Return]   ${return_value}
+
+Отримати інформацію про items[1].description
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].description
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].classification.id
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].classification.id
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].classification.scheme
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].classification.scheme
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].classification.description
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].classification.description
+  ${return_value}=   Convert To String     ${return_value}
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryAddress.countryName
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].deliveryAddress.countryName
+  [Return]      ${return_value}
+
+Отримати інформацію про items[1].deliveryAddress.postalCode
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].deliveryAddress.postalCode
+  [Return]      ${return_value}
+
+Отримати інформацію про items[1].deliveryAddress.region
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].deliveryAddress.region
+  [Return]   ${return_value}
+
+Отримати інформацію про items[1].deliveryAddress.locality
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].deliveryAddress.locality
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryAddress.streetAddress
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].deliveryAddress.streetAddress
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryDate.startDate
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].deliveryDate.startDate
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryDate.endDate
+  ${return_value}=   Отримати текст із поля і показати на сторінці  items[1].deliveryDate.endDate
+  [Return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryLocation.latitude
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].deliveryLocation.latitude
+  ${return_value}=   Convert To Number   ${return_value}
+  [return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryLocation.longitude
+  ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].deliveryLocation.longitude
+  ${return_value}=   Convert To Number   ${return_value}
+  [return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryAddress.countryName_ru
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].deliveryAddress.countryName_ru
+    [Return]  ${return_value}
+
+Отримати інформацію про items[1].deliveryAddress.countryName_en
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].deliveryAddress.countryName_en
+    [Return]  ${return_value}
 
 Отримати інформацію про questions[0].title
   ${return_value}=  Get text          ${locator.questions[0].title}
@@ -1012,7 +1110,7 @@ Login
 Пошук плану по ідентифікатору
     [Arguments]  ${userName}  ${planId}
     Log to console  ${planId}
-    Go to  http://prozorrodev.ga/prozorrotender/plan/sync-all?n=5
+    Go to  http://prozorrodev.ga/prozorrotender/plan/get-all?n=5
     Sleep  6
     Go to   ${USERS.users['${userName}'].homepage}
     Sleep  2
@@ -1048,6 +1146,7 @@ Login
 Отримати інформацію про budget.amount
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   budget.amount
+    ${return_value}=   Convert To Number    ${return_value}
     [Return]  ${return_value}
 
 Отримати інформацію про budget.description
@@ -1108,41 +1207,8 @@ Login
 Отримати інформацію про tender.tenderPeriod.startDate
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   tender.tenderPeriod.startDate
-    [Return]  ${return_value}
-
-Отримати інформацію про items[1].quantity
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].quantity
-    [Return]  ${return_value}
-
-Отримати інформацію про items[1].deliveryDate.endDate
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].deliveryDate.endDate
-    [Return]  ${return_value}
-
-Отримати інформацію про items[1].unit.code
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].unit.code
-    [Return]  ${return_value}
-
-Отримати інформацію про items[1].unit.name
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].unit.name
-    [Return]  ${return_value}
-
-Отримати інформацію про items[1].classification.description
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].classification.description
-    [Return]  ${return_value}
-
-Отримати інформацію про items[1].classification.scheme
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].classification.scheme
-    [Return]  ${return_value}
-
-Отримати інформацію про items[1].classification.id
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[1].classification.id
+    ${return_value}=   convert_polonex_date_to_iso_format2   ${return_value}
+    ${return_value}=   add_timezone_to_date2   ${return_value.split('.')[0]}
     [Return]  ${return_value}
 
 ### for reporting
@@ -1186,6 +1252,11 @@ Login
     ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.address.streetAddress
     [Return]  ${return_value}
 
+Отримати інформацію про procuringEntity.address.locality
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.address.locality
+    [Return]  ${return_value}
+
 Отримати інформацію про procuringEntity.contactPoint.name
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.contactPoint.name
@@ -1201,30 +1272,6 @@ Login
     ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.contactPoint.url
     [Return]  ${return_value}
 
-Отримати інформацію про procuringEntity.identifier.legalName
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.legalName
-    [Return]  ${return_value}
-
-Отримати інформацію про procuringEntity.identifier.scheme
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.scheme
-    [Return]  ${return_value}
-
-Отримати інформацію про procuringEntity.identifier.id
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   procuringEntity.identifier.id
-    [Return]  ${return_value}
-
-Отримати інформацію про items[0].deliveryAddress.countryName_ru
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryAddress.countryName_ru
-    [Return]  ${return_value}
-
-Отримати інформацію про items[0].deliveryAddress.countryName_en
-    reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   items[0].deliveryAddress.countryName_en
-    [Return]  ${return_value}
 
 Отримати інформацію про documents[0].title
     reload page
@@ -1239,11 +1286,12 @@ Login
 Отримати інформацію про awards[0].status
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].status
+    ${return_value}=   convert_polonex_string     ${return_value}
     [Return]  ${return_value}
 
-Отримати інформацію про awards[0].suppliers[0].address.countryName'
+Отримати інформацію про awards[0].suppliers[0].address.countryName
     reload page
-    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].address.countryName'
+    ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].suppliers[0].address.countryName
     [Return]  ${return_value}
 
 Отримати інформацію про awards[0].suppliers[0].address.locality
@@ -1304,15 +1352,41 @@ Login
 Отримати інформацію про awards[0].value.valueAddedTaxIncluded
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].value.valueAddedTaxIncluded
+    ${return_value}=   convert_polonex_string     ${return_value}
     [Return]  ${return_value}
 
 Отримати інформацію про awards[0].value.currency
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].value.currency
+    ${return_value}=   convert_polonex_string     ${return_value}
     [Return]  ${return_value}
 
 Отримати інформацію про awards[0].value.amount
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   awards[0].value.amount
+    ${return_value}=   Convert To Number   ${return_value}
     [Return]  ${return_value}
 
+Отримати інформацію із лоту
+  [Arguments]  ${userName}  ${tenderId}  ${lotId}  ${fieldName}
+  ${return_value}=   Отримати текст із поля і показати на сторінці   lots[${lotId}].${fieldName}
+
+#### TODO додати відображення об'єктів lots та funders
+####Отримати інформацію про lots[0].title
+####Отримати інформацію про lots[0].description
+####Отримати інформацію про lots[0].value.amount
+####Отримати інформацію про lots[0].value.currency
+####Отримати інформацію про lots[0].value.valueAddedTaxIncluded
+####Отримати інформацію про lots[0].minimalStep.amount
+####Отримати інформацію про lots[0].minimalStep.currency
+####Отримати інформацію про lots[0].minimalStep.valueAddedTaxIncluded
+####Отримати інформацію про funders[0].name
+####Отримати інформацію про funders[0].address.countryName
+####Отримати інформацію про funders[0].address.locality
+####Отримати інформацію про funders[0].address.postalCode
+####Отримати інформацію про funders[0].address.region
+####Отримати інформацію про funders[0].address.streetAddress
+####Отримати інформацію про funders[0].contactPoint.url
+####Отримати інформацію про funders[0].identifier.id
+####Отримати інформацію про funders[0].identifier.legalName
+####Отримати інформацію про funders[0].identifier.scheme

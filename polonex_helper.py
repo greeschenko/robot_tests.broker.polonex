@@ -26,6 +26,17 @@ def convert_polonex_date_to_iso_format(date_time_from_ui):
     new_date_time_string = new_timedata.strftime("%Y-%m-%d %H:%M:%S.%f")
     return new_date_time_string
 
+def add_timezone_to_date2(date_str):
+    new_date = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
+    TZ = timezone(os.environ['TZ'] if 'TZ' in os.environ else 'Europe/Kiev')
+    new_date_timezone = TZ.localize(new_date)
+    return new_date_timezone.strftime("%Y-%m-%dT%H:%M:%S+03:00")
+
+def convert_polonex_date_to_iso_format2(date_time_from_ui):
+    new_timedata = datetime.strptime(date_time_from_ui, '%d-%m-%Y\n%H:%M')
+    new_date_time_string = new_timedata.strftime("%Y-%m-%dT%H:%M:%S.%f")
+    return new_date_time_string
+
 def split_descr(str):
     return str.split(' - ')[1];
 
@@ -53,5 +64,6 @@ def convert_polonex_string(string):
             u'Грн.':                                                                              'UAH',
             u'(включно з ПДВ)':                                                                   True,
             u'(без ПДВ)':                                                                         False,
+            u'[Переможець]':                                                                      'active',
             }.get(string, string)
 
