@@ -8,8 +8,8 @@ Library     polonex_helper.py
 
 
 *** Variables ***
-${sign_in}                                                      id=lbtn-mobile
-###${sign_in}                                                      id=loginbtn
+###${sign_in}                                                      id=lbtn-mobile
+${sign_in}                                                      id=loginbtn
 ${login_email}                                                  id=loginform-username
 ${login_pass}                                                   id=loginform-password
 ${prozorropage}                                                 id=prozorropagebtn
@@ -159,6 +159,29 @@ ${locator.awards[0].suppliers[0].name}  id=award_suppliers_0_name
 ${locator.awards[0].value.valueAddedTaxIncluded}  id=award_0_value_tax
 ${locator.awards[0].value.currency}  id=award_0_value_currency
 ${locator.awards[0].value.amount}  id=award_0_value_amount
+
+${locator.lots[0].title}                              id=lots[0]_title
+${locator.lots[0].description}                        id=lots[0]_description
+${locator.lots[0].value.amount}                       xpath=//td[contains(@id, 'lots[0]_value')]/span[contains(@class, 'amount')]
+${locator.lots[0].value.currency}                     xpath=//td[contains(@id, 'lots[0]_value')]/span[contains(@class, 'currency')]
+${locator.lots[0].value.valueAddedTaxIncluded}        xpath=//td[contains(@id, 'lots[0]_value')]/span[contains(@class, 'tax')]
+${locator.lots[0].minimalStep.amount}                 xpath=//td[contains(@id, 'lots[0]_minimalStep')]/span[contains(@class, 'amount')]
+${locator.lots[0].minimalStep.currency}               xpath=//td[contains(@id, 'lots[0]_minimalStep')]/span[contains(@class, 'currency')]
+${locator.lots[0].minimalStep.valueAddedTaxIncluded}  xpath=//td[contains(@id, 'lots[0]_minimalStep')]/span[contains(@class, 'tax')]
+${locator.lots[0].auctionPeriod.startDate}            xpath=//td[contains(@class, 'lots[0]_auctionPeriod')]/span[contains(@class, 'startDate')]
+${locator.lots[0].auctionPeriod.endDate}              xpath=//td[contains(@class, 'lots[0]_auctionPeriod')]/span[contains(@class, 'endDate')]
+
+
+${locator.funders[0].name}                            id=funders[0]_name
+${locator.funders[0].address.countryName}             id=funders[0]_address_countryName
+${locator.funders[0].address.locality}                id=funders[0]_address_locality
+${locator.funders[0].address.postalCode}              id=funders[0]_address_postalCode
+${locator.funders[0].address.region}                  id=funders[0]_address_region
+${locator.funders[0].address.streetAddress}           id=funders[0]_address_streetAddress
+${locator.funders[0].contactPoint.url}                id=funders[0]_contact_url
+${locator.funders[0].identifier.id}                   id=funders[0]_idnt_id
+${locator.funders[0].identifier.legalName}            id=funders[0]_idnt_legalName
+${locator.funders[0].identifier.scheme}               id=funders[0]_idnt_scheme
 
 
 *** Keywords ***
@@ -1123,6 +1146,109 @@ Login
     Click Element     xpath=(//a[contains(@class, 'auction_detail_btn')])
     Sleep  1
 
+Створити план
+  [Arguments]  ${userName}  ${planData}
+  log to console  ${planData}
+
+    ###    budget:
+    ###        amount: 91554648461.68
+    ###        amountNet: 405558191.63
+    ###        currency: UAH
+    ###        description: Постояльний оповідь грюк II варт імшедь матюнка відчалювати насупереки
+    ###            весілчанин приспа.
+    ###        id: 45637065325-8
+    ###        project:
+    ###            id: '701'
+    ###            name: Виголос ланя а кто ето сделал? ошаліти тоскно прахтика порозмазувати
+    ###                розжарити парастас пахіття відробляти кізка поволовщина.
+    ###
+    ###    classification:
+    ###        description: Газети, періодичні спеціалізовані та інші періодичні видання
+    ###            і журнали
+    ###        id: 22200000-2
+    ###        scheme: ДК021
+    ###    items:
+    ###    -   additionalClassifications:
+    ###        -   description: Послуги щодо видавання газет
+    ###            id: '58.13'
+    ###            scheme: ДКПП
+    ###        classification:
+    ###            description: Газети, періодичні спеціалізовані та інші періодичні видання
+    ###                і журнали
+    ###            id: 22200000-2
+    ###            scheme: ДК021
+    ###        deliveryDate:
+    ###            endDate: '2019-08-02T00:00:00+03:00'
+    ###        description: 'i-7e7f0989: Періодичні видання оригінальні на 2016 рік (газети
+    ###            України, журнали України, журнали Росії)'
+    ###        description_en: 'i-76cbc3c0: Periodicals original in 2016 (Ukrainian newspapers,
+    ###            Ukrainian magazines, Russian magazines)'
+    ###        description_ru: 'i-17de6cc0: Периодические издания оригинала в 2016 году (газет
+    ###            Украина, журналов Украины, журналов  России)'
+    ###        quantity: 41.497
+    ###        unit:
+    ###            code: H87
+    ###            name: штуки
+    ###    -   additionalClassifications:
+    ###        -   description: Послуги щодо видавання газет
+    ###            id: '58.13'
+    ###            scheme: ДКПП
+    ###        classification:
+    ###            description: Газети, періодичні спеціалізовані та інші періодичні видання
+    ###                і журнали
+    ###            id: 22200000-2
+    ###            scheme: ДК021
+    ###    additionalClassifications:
+    ###    -   description: Послуги щодо видавання газет
+    ###        id: '58.13'
+    ###        scheme: ДКПП
+    ###    deliveryDate:
+    ###            endDate: '2019-08-02T00:00:00+03:00'
+    ###        description: 'i-2e0e3882: Періодичні видання оригінальні на 2016 рік (газети
+    ###            України, журнали України, журнали Росії)'
+    ###        description_en: 'i-786bbc69: Periodicals original in 2016 (Ukrainian newspapers,
+    ###            Ukrainian magazines, Russian magazines)'
+    ###        description_ru: 'i-d6e36487: Периодические издания оригинала в 2016 году (газет
+    ###            Украина, журналов Украины, журналов  России)'
+    ###        quantity: 91.516
+    ###        unit:
+    ###            code: H87
+    ###            name: штуки
+    ###    procuringEntity:
+    ###        identifier:
+    ###            id: '853'
+    ###            legalName: Голубаня пофальшувати вичухатися убраний муничитися чуркати
+    ###                докандибити драб драгун постогнувати.
+    ###            scheme: UA-EDR
+    ###        name: Ланя ремествувати зажати заперти прикриватися душман запащекувати начутися
+    ###            бердник скитки кормитися.
+    ###    tender:
+    ###        procurementMethod: open
+    ###        procurementMethodType: belowThreshold
+    ###        tenderPeriod:
+    ###            startDate: '2019-07-23T00:00:00+03:00'
+
+    ${budget_amount}=                         Get From Dictionary  ${planData.data.budget}  amount
+    ${budget_amountNet}=                      Get From Dictionary  ${planData.data.budget}  amountNet
+    ${budget_currency}=                       Get From Dictionary  ${planData.data.budget}  currency
+    ${budget_description}=                    Get From Dictionary  ${planData.data.budget}  description
+    ${budget_id}=                             Get From Dictionary  ${planData.data.budget}  id
+    ${budget_project_id}=                     Get From Dictionary  ${planData.data.budget.project}  id
+    ${budget_project_name}=                   Get From Dictionary  ${planData.data.budget.project}  name
+    ${classification_description}=            Get From Dictionary  ${planData.data.classification}  description
+    ${classification_id}=                     Get From Dictionary  ${planData.data.classification}  id
+    ${classification_scheme}=                 Get From Dictionary  ${planData.data.classification}  scheme
+    ${additionalClassifications}=             Get From Dictionary  ${planData.data}  additionalClassifications
+    ${items}=                                 Get From Dictionary  ${planData.data}  items
+    ${procuringEntity_name}=                  Get From Dictionary  ${planData.data.procuringEntity}  name
+    ${procuringEntity_identifier_id}=         Get From Dictionary  ${planData.data.procuringEntity.identifier} id
+    ${procuringEntity_identifier_legalName}=  Get From Dictionary  ${planData.data.procuringEntity.identifier}  legalName
+    ${procuringEntity_identifier_scheme}=     Get From Dictionary  ${planData.data.procuringEntity.identifier}  scheme
+    ${tender_procurementMethod}=              Get From Dictionary  ${planData.data.tender}  procurementMethod
+    ${tender_procurementMethodType}=          Get From Dictionary  ${planData.data.tender}  procurementMethodType
+    ${tender_tenderPeriod_startDate}=         Get From Dictionary  ${planData.data.tender.tenderPeriod}  startDate
+
+
 Отримати інформацію із плану
   [Arguments]  ${userName}  ${planId}  ${fieldName}
 
@@ -1371,22 +1497,114 @@ Login
   [Arguments]  ${userName}  ${tenderId}  ${lotId}  ${fieldName}
   ${return_value}=   Отримати текст із поля і показати на сторінці   lots[${lotId}].${fieldName}
 
-#### TODO додати відображення об'єктів lots та funders
-####Отримати інформацію про lots[0].title
-####Отримати інформацію про lots[0].description
-####Отримати інформацію про lots[0].value.amount
-####Отримати інформацію про lots[0].value.currency
-####Отримати інформацію про lots[0].value.valueAddedTaxIncluded
-####Отримати інформацію про lots[0].minimalStep.amount
-####Отримати інформацію про lots[0].minimalStep.currency
-####Отримати інформацію про lots[0].minimalStep.valueAddedTaxIncluded
-####Отримати інформацію про funders[0].name
-####Отримати інформацію про funders[0].address.countryName
-####Отримати інформацію про funders[0].address.locality
-####Отримати інформацію про funders[0].address.postalCode
-####Отримати інформацію про funders[0].address.region
-####Отримати інформацію про funders[0].address.streetAddress
-####Отримати інформацію про funders[0].contactPoint.url
-####Отримати інформацію про funders[0].identifier.id
-####Отримати інформацію про funders[0].identifier.legalName
-####Отримати інформацію про funders[0].identifier.scheme
+Отримати інформацію про lots[0].title
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].title
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].description
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].description
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].value.amount
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].value.amount
+    ${return_value}=   Convert To Number    ${return_value}
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].value.currency
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].value.currency
+    ${return_value}=   convert_polonex_string     ${return_value}
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].value.valueAddedTaxIncluded
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].value.valueAddedTaxIncluded
+    ${return_value}=   convert_polonex_string     ${return_value}
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].minimalStep.amount
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].minimalStep.amount
+    ${return_value}=   Convert To Number    ${return_value}
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].minimalStep.currency
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].minimalStep.currency
+    ${return_value}=   convert_polonex_string     ${return_value}
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].minimalStep.valueAddedTaxIncluded
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].minimalStep.valueAddedTaxIncluded
+    ${return_value}=   convert_polonex_string     ${return_value}
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].auctionPeriod.startDate
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].auctionPeriod.startDate
+    ${return_value}=   convert_polonex_date_to_iso_format2   ${return_value}
+    ${return_value}=   add_timezone_to_date2   ${return_value.split('.')[0]}
+    [Return]  ${return_value}
+
+Отримати інформацію про lots[0].auctionPeriod.endDate
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   lots[0].auctionPeriod.endDate
+    ${return_value}=   convert_polonex_date_to_iso_format2   ${return_value}
+    ${return_value}=   add_timezone_to_date2   ${return_value.split('.')[0]}
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].name
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].name
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].address.countryName
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].address.countryName
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].address.locality
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].address.locality
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].address.postalCode
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].address.postalCode
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].address.region
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].address.region
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].address.streetAddress
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].address.streetAddress
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].contactPoint.url
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].contactPoint.url
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].identifier.id
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].identifier.id
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].identifier.legalName
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].identifier.legalName
+    [Return]  ${return_value}
+
+Отримати інформацію про funders[0].identifier.scheme
+    reload page
+    ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].identifier.scheme
+    [Return]  ${return_value}
+
+
