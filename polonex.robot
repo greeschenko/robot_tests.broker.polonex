@@ -211,100 +211,30 @@ Login
   [return]  ${tender_data}
 
 Створити тендер
-  [Arguments]  @{ARGUMENTS}
-  [Documentation]
-  ...      ${ARGUMENTS[0]} ==  username
-  ...      ${ARGUMENTS[1]} ==  tender_data
+    [Arguments]  @{ARGUMENTS}
+    [Documentation]
+    ...      ${ARGUMENTS[0]} ==  username
+    ...      ${ARGUMENTS[1]} ==  tender_data
 
-  log to console  ${ARGUMENTS[1]}
+    log to console  ${ARGUMENTS[1]}
 
-###data:
-###    description: Постояльний висмівати подубнути бердник прахтика атака дешперувати.
-###    description_en: Quos quasi natus quos quo temporibus provident distinctio fuga
-###        neque quis.
-###    description_ru: Вим ёнанй факёльиси пырикульа ажжынтиор элыктрам кибо вэртырэм
-###        мэльёуз инимёкюж тамквюам вёжи фырре.
-###    enquiryPeriod:
-###        endDate: '2018-04-12T21:54:57.290333+03:00'
-###        startDate: '2018-04-12T21:34:57.290333+03:00'
-###    items:
-###    -   additionalClassifications:
-###        -   description: Журнали реєстраційні, бухгалтерські книги, швидкозшивачі,
-###                формуляри та інші канцелярські вироби, паперові чи картонні
-###            id: 17.23.13
-###            scheme: ДКПП
-###        classification:
-###            description: Паперові чи картонні реєстраційні журнали, бухгалтерські
-###                книги, швидкозшивачі, бланки та інші паперові канцелярські вироби
-###            id: 22800000-8
-###            scheme: ДК021
-###        deliveryAddress:
-###            countryName: Україна
-###            countryName_en: Ukraine
-###            countryName_ru: Украина
-###            locality: Дніпро
-###            postalCode: '51925'
-###            region: Дніпропетровська область
-###            streetAddress: проспект Карла Маркса, 52
-###        deliveryDate:
-###            endDate: '2018-04-22T21:34:57.293998+03:00'
-###            startDate: '2018-04-22T21:34:57.293924+03:00'
-###        deliveryLocation:
-###            latitude: 48.465356
-###            longitude: 35.045667
-###        description: 'i-ae515033: Бланки та журнали відповідної форми (наведені в
-###            додатку)'
-###        description_en: 'i-88b6b39b: Form and journals in appropriate form (listed
-###            in Annex)'
-###        description_ru: 'i-3dda8ebc: Бланки и журналы соответствующей формы (приведены
-###            в приложении)'
-###        quantity: 6
-###        unit:
-###            code: LO
-###            name: лот
-###    minimalStep:
-###        amount: 1050824.42
-###        currency: UAH
-###    mode: test
-###    procurementMethodDetails: quick, accelerator=1440
-###    procuringEntity:
-###        address:
-###            countryName: Україна
-###            locality: Переяслав-Хмельницький
-###            postalCode: '01030'
-###            region: Київська область
-###            streetAddress: Богдана Хмельницького вулиця, 21-29
-###        contactPoint:
-###            email: buh510@ukr.net
-###            faxNumber: '2343591'
-###            name: Ліповець Євген Іванович
-###            telephone: '2341170'
-###            url: http://www.shev.gov.ua/
-###        identifier:
-###            id: '21725150'
-###            legalName: Шевченківська районна в місті Києві державна адміністрація
-###            scheme: UA-EDR
-###        kind: other
-###        name: Шевченківська районна в місті Києві державна адміністрація
-###    status: draft
-###    submissionMethodDetails: quick
-###    tenderPeriod:
-###        endDate: '2018-04-12T22:24:57.290333+03:00'
-###        startDate: '2018-04-12T21:54:57.290333+03:00'
-###    title: '[ТЕСТУВАННЯ] Хобза свистіння здирати.'
-###    title_en: '[TESTING] Business-focused 5thgeneration challenge'
-###    title_ru: '[ТЕСТИРОВАНИЕ] Progressive incremental knowledgebase'
-###    value:
-###        amount: 70592965.48
-###        currency: UAH
-###        valueAddedTaxIncluded: true
+    ${procurementTypeExist}=    Run Keyword And Return Status   Dictionary Should Contain Key  ${ARGUMENTS[1].data}  procurementMethodType
+    ${procurementMethodType}=   Run Keyword If  ${procurementTypeExist}  Get From Dictionary  ${ARGUMENTS[1].data}   procurementMethodType
+    ...  ELSE  Convert To String    belowThreshold
 
+    ###Run keyword And Return If  '${procurementMethodType}' == 'reporting'  avi.Створити звіт  ${userName}  ${ARGUMENTS[1]}
 
     ${mainProcurementCategory}=              Get From Dictionary         ${ARGUMENTS[1].data}                   mainProcurementCategory
     ${title}=                                Get From Dictionary         ${ARGUMENTS[1].data}                   title
     ${description}=                          Get From Dictionary         ${ARGUMENTS[1].data}                   description
-    ${minimalstep_amount}=                   Get From Dictionary         ${ARGUMENTS[1].data.minimalStep}       amount
-    ${minimalstep_currency}=                 Get From Dictionary         ${ARGUMENTS[1].data.minimalStep}       currency
+
+
+    ${hasMinimalStep}=     Run Keyword And Return Status  Dictionary Should Contain Key  ${ARGUMENTS[1].data}  minimalStep
+    ${minimalstep_amount}=  Run Keyword If  ${hasMinimalStep}  Get From Dictionary  ${ARGUMENTS[1].data.minimalStep}  amount
+    ...  ELSE  Convert To String   0
+    ${minimalstep_amount}=  Convert To String  ${minimalStepAmount}
+
+
     ${value_amount}=                         Get From Dictionary         ${ARGUMENTS[1].data.value}             amount
     ${value_currency}=                       Get From Dictionary         ${ARGUMENTS[1].data.value}             currency
     ${value_valueaddedtaxincluded}=          Convert To String           ${ARGUMENTS[1].data.value.valueAddedTaxIncluded}
@@ -362,16 +292,7 @@ Login
     ${procuringEntity_name}=                     Get From Dictionary     ${procuringEntity}                    name
 
 
-    ${enquiryPeriod_endDate}=                   Get From Dictionary         ${ARGUMENTS[1].data.enquiryPeriod}       endDate
-    ${enquiryPeriod_startDate}=                 Get From Dictionary         ${ARGUMENTS[1].data.enquiryPeriod}       startDate
 
-    ${tenderPeriod_endDate}=                    Get From Dictionary         ${ARGUMENTS[1].data.tenderPeriod}        endDate
-    ${tenderPeriod_startDate}=                  Get From Dictionary         ${ARGUMENTS[1].data.tenderPeriod}        startDate
-
-    ${enquiryPeriod_endDate}=    polonex_convertdate   ${enquiryPeriod_endDate}
-    ${enquiryPeriod_startDate}=  polonex_convertdate   ${enquiryPeriod_startDate}
-    ${tenderPeriod_endDate}=     polonex_convertdate   ${tenderPeriod_endDate}
-    ${tenderPeriod_startDate}=   polonex_convertdate   ${tenderPeriod_startDate}
     ${deliverydate_startdate}=   polonex_convertdate   ${deliverydate_startdate}
     ${deliverydate_enddate}=     polonex_convertdate   ${deliverydate_enddate}
 
@@ -385,12 +306,14 @@ Login
     ${quantity}=                        Convert To String     ${quantity}
 
 
+
+
     Go to   ${USERS.users['${ARGUMENTS[0]}'].homepage}
     Sleep   2
     Click Element       xpath=//a[contains(@id, 'addauctionbtn')]
     Sleep   4
 
-    Select From List    xpath=//select[@id="addtenderform-minimalstep_currency"]    ${minimalstep_currency}
+    ###Select From List    xpath=//select[@id="addtenderform-minimalstep_currency"]    ${minimalstep_currency}
     Select From List    xpath=//select[@id="addtenderform-value_currency"]    ${value_currency}
     Select From List    xpath=//select[@id="addtenderform-value_valueaddedtaxincluded"]    ${value_valueaddedtaxincluded}
     Select From List    xpath=//select[@id="addtenderform-minimalstep_valueaddedtaxincluded"]    ${value_valueaddedtaxincluded}
@@ -428,13 +351,11 @@ Login
     Input text      id=addtenderidentifierform-0-scheme  ${procuringEntity_identifier_scheme}
     Input text      id=addtenderidentifierform-0-legalname  ${procuringEntity_identifier_legalName}
     Input text      id=addtenderform-procuringentity_name  ${procuringEntity_name}
-    Input text      id=addtenderform-enquiryperiod_enddate  ${enquiryPeriod_endDate}
-    Input text      id=addtenderform-enquiryperiod_startdate  ${enquiryPeriod_startDate}
-    Input text      id=addtenderform-tenderperiod_enddate  ${tenderPeriod_endDate}
-    Input text      id=addtenderform-tenderperiod_startdate  ${tenderPeriod_startDate}
 
     Execute Javascript    $("#addtenderitemsform-0-classification_id").val("${classification_id}");
     Execute Javascript    $("#addtenderitemsform-0-classification_id").trigger("change");
+
+    Run Keyword If  '${procurementMethodType}' == 'belowThreshold'  Заповнити періоди  ${ARGUMENTS[1]}
 
     Run Keyword If
         ...  '${additionalClassification_scheme}' == 'ДКПП'
@@ -453,6 +374,25 @@ Login
 
     ${tender_uaid}=     Get Text        xpath=//td[contains(@id, 'info_tenderID')]
     [Return]    ${tender_uaid}
+
+
+Заповнити періоди
+    [Arguments]  ${tenderData}
+
+    ${enquiryPeriod_endDate}=                   Get From Dictionary         ${tenderData.data.enquiryPeriod}       endDate
+    ${enquiryPeriod_startDate}=                 Get From Dictionary         ${tenderData.data.enquiryPeriod}       startDate
+    ${tenderPeriod_endDate}=                    Get From Dictionary         ${tenderData.data.tenderPeriod}        endDate
+    ${tenderPeriod_startDate}=                  Get From Dictionary         ${tenderData.data.tenderPeriod}        startDate
+
+    ${enquiryPeriod_endDate}=    polonex_convertdate   ${enquiryPeriod_endDate}
+    ${enquiryPeriod_startDate}=  polonex_convertdate   ${enquiryPeriod_startDate}
+    ${tenderPeriod_endDate}=     polonex_convertdate   ${tenderPeriod_endDate}
+    ${tenderPeriod_startDate}=   polonex_convertdate   ${tenderPeriod_startDate}
+
+    Input text      id=addtenderform-enquiryperiod_enddate  ${enquiryPeriod_endDate}
+    Input text      id=addtenderform-enquiryperiod_startdate  ${enquiryPeriod_startDate}
+    Input text      id=addtenderform-tenderperiod_enddate  ${tenderPeriod_endDate}
+    Input text      id=addtenderform-tenderperiod_startdate  ${tenderPeriod_startDate}
 
 Додати майлстоуни
     [Arguments]  ${milestones}
