@@ -322,6 +322,7 @@ Login
     Select From List    id=addtenderform-mainprocurementcategory  ${mainProcurementCategory}
 
 
+    Input text      id=addtenderform-procurementmethodtype  ${procurementMethodType}
     Input text      id=addtenderform-title  ${title}
     Input text      id=addtenderform-description  ${description}
     Input text      id=addtenderform-minimalstep_amount  ${minimalstep_amount}
@@ -1546,5 +1547,59 @@ Login
     reload page
     ${return_value}=   Отримати текст із поля і показати на сторінці   funders[0].identifier.scheme
     [Return]  ${return_value}
+
+Створити постачальника, додати документацію і підтвердити його
+    [Arguments]   ${userName}   ${tenderId}   ${supplier_data}   ${file}
+
+    Click Element  id=add_award_to_auction_btn
+    Wait Until Element Is Visible  id=submit_add_award_form  10
+
+    ${value_amount}=                         Get From Dictionary         ${supplier_data.data.value}             amount
+    ${value_currency}=                       Get From Dictionary         ${supplier_data.data.value}             currency
+    ${value_valueaddedtaxincluded}=          Convert To String           ${supplier_data.data.value.valueAddedTaxIncluded}
+    ${value_valueaddedtaxincluded}=          convert_polonex_string      ${value_valueaddedtaxincluded}
+
+    ${suppliers}=                            Get From Dictionary         ${supplier_data.data}                   suppliers
+    ${suppliers0}=                           Get From List               ${suppliers}                            0
+
+    ${suppliers_identifier_id}=  Get From Dictionary  ${suppliers0.identifier}  id
+    ${suppliers_identifier_scheme}=  Get From Dictionary  ${suppliers0.identifier}  scheme
+    ${suppliers_identifier_legalName}=  Get From Dictionary  ${suppliers0.identifier}  legalName
+
+    ${suppliers_name}=  Get From Dictionary  ${suppliers0}  name
+    ${suppliers_scale}=  Get From Dictionary  ${suppliers0}  scale
+    ${suppliers_address_countryName}=  Get From Dictionary  ${suppliers0.address}  countryName
+    ${suppliers_address_locality}=  Get From Dictionary  ${suppliers0.address}  locality
+    ${suppliers_address_postalCode}=  Get From Dictionary  ${suppliers0.address}  postalCode
+    ${suppliers_address_region}=  Get From Dictionary  ${suppliers0.address}  region
+    ${suppliers_address_streetAddress}=  Get From Dictionary  ${suppliers0.address}  streetAddress
+    ${suppliers_contactPoint_email}=  Get From Dictionary  ${suppliers0.contactPoint}  email
+    ${suppliers_contactPoint_faxNumber}=  Get From Dictionary  ${suppliers0.contactPoint}  faxNumber
+    ${suppliers_contactPoint_name}=  Get From Dictionary  ${suppliers0.contactPoint}  name
+    ${suppliers_contactPoint_telephone}=  Get From Dictionary  ${suppliers0.contactPoint}  telephone
+    ${suppliers_contactPoint_url}=  Get From Dictionary  ${suppliers0.contactPoint}  url
+
+    Select From List  id=addawardform-value_currency  ${value_currency}
+    Select From List  id=addawardform-value_valueaddedtaxincluded  ${value_valueaddedtaxincluded}
+    Select From List  id=addawardform-suppliers_identifier_scheme  ${suppliers_identifier_scheme}
+    Select From List  id=addawardform-suppliers_scale  ${suppliers_scale}
+
+    Input text  id=addawardform-suppliers_address_countryname  ${suppliers_address_countryName}
+    Input text  id=addawardform-suppliers_address_locality  ${suppliers_address_locality}
+    Input text  id=addawardform-suppliers_address_postalcode  ${suppliers_address_postalCode}
+    Input text  id=addawardform-suppliers_address_region  ${suppliers_address_region}
+    Input text  id=addawardform-suppliers_address_streetaddress  ${suppliers_address_streetAddress}
+    Input text  id=addawardform-suppliers_contactpoint_email  ${suppliers_contactPoint_email}
+    Input text  id=addawardform-suppliers_contactpoint_faxnumber  ${suppliers_contactPoint_faxNumber}
+    Input text  id=addawardform-suppliers_contactpoint_name  ${suppliers_contactPoint_name}
+    Input text  id=addawardform-suppliers_contactpoint_telephone  ${suppliers_contactPoint_telephone}
+    Input text  id=addawardform-suppliers_contactpoint_url  ${suppliers_contactPoint_url}
+    Input text  id=addawardform-suppliers_identifier_id  ${suppliers_identifier_id}
+    Input text  id=addawardform-suppliers_identifier_legalname  ${suppliers_identifier_legalName}
+    Input text  id=addawardform-suppliers_name  ${suppliers_name}
+    Input text  id=addawardform-value_amount  ${value_amount}
+
+    Click Element  id=submit_add_award_form
+    Wait Until Page Contains  Постачальника додано успішно  10
 
 
