@@ -1088,87 +1088,15 @@ Login
     Sleep  1
 
 Створити план
-  [Arguments]  ${userName}  ${planData}
-  log to console  ${planData}
+    [Arguments]  ${userName}  ${planData}
 
-    ###    budget:
-    ###        amount: 91554648461.68
-    ###        amountNet: 405558191.63
-    ###        currency: UAH
-    ###        description: Постояльний оповідь грюк II варт імшедь матюнка відчалювати насупереки
-    ###            весілчанин приспа.
-    ###        id: 45637065325-8
-    ###        project:
-    ###            id: '701'
-    ###            name: Виголос ланя а кто ето сделал? ошаліти тоскно прахтика порозмазувати
-    ###                розжарити парастас пахіття відробляти кізка поволовщина.
-    ###
-    ###    classification:
-    ###        description: Газети, періодичні спеціалізовані та інші періодичні видання
-    ###            і журнали
-    ###        id: 22200000-2
-    ###        scheme: ДК021
-    ###    items:
-    ###    -   additionalClassifications:
-    ###        -   description: Послуги щодо видавання газет
-    ###            id: '58.13'
-    ###            scheme: ДКПП
-    ###        classification:
-    ###            description: Газети, періодичні спеціалізовані та інші періодичні видання
-    ###                і журнали
-    ###            id: 22200000-2
-    ###            scheme: ДК021
-    ###        deliveryDate:
-    ###            endDate: '2019-08-02T00:00:00+03:00'
-    ###        description: 'i-7e7f0989: Періодичні видання оригінальні на 2016 рік (газети
-    ###            України, журнали України, журнали Росії)'
-    ###        description_en: 'i-76cbc3c0: Periodicals original in 2016 (Ukrainian newspapers,
-    ###            Ukrainian magazines, Russian magazines)'
-    ###        description_ru: 'i-17de6cc0: Периодические издания оригинала в 2016 году (газет
-    ###            Украина, журналов Украины, журналов  России)'
-    ###        quantity: 41.497
-    ###        unit:
-    ###            code: H87
-    ###            name: штуки
-    ###    -   additionalClassifications:
-    ###        -   description: Послуги щодо видавання газет
-    ###            id: '58.13'
-    ###            scheme: ДКПП
-    ###        classification:
-    ###            description: Газети, періодичні спеціалізовані та інші періодичні видання
-    ###                і журнали
-    ###            id: 22200000-2
-    ###            scheme: ДК021
-    ###    additionalClassifications:
-    ###    -   description: Послуги щодо видавання газет
-    ###        id: '58.13'
-    ###        scheme: ДКПП
-    ###    deliveryDate:
-    ###            endDate: '2019-08-02T00:00:00+03:00'
-    ###        description: 'i-2e0e3882: Періодичні видання оригінальні на 2016 рік (газети
-    ###            України, журнали України, журнали Росії)'
-    ###        description_en: 'i-786bbc69: Periodicals original in 2016 (Ukrainian newspapers,
-    ###            Ukrainian magazines, Russian magazines)'
-    ###        description_ru: 'i-d6e36487: Периодические издания оригинала в 2016 году (газет
-    ###            Украина, журналов Украины, журналов  России)'
-    ###        quantity: 91.516
-    ###        unit:
-    ###            code: H87
-    ###            name: штуки
-    ###    procuringEntity:
-    ###        identifier:
-    ###            id: '853'
-    ###            legalName: Голубаня пофальшувати вичухатися убраний муничитися чуркати
-    ###                докандибити драб драгун постогнувати.
-    ###            scheme: UA-EDR
-    ###        name: Ланя ремествувати зажати заперти прикриватися душман запащекувати начутися
-    ###            бердник скитки кормитися.
-    ###    tender:
-    ###        procurementMethod: open
-    ###        procurementMethodType: belowThreshold
-    ###        tenderPeriod:
-    ###            startDate: '2019-07-23T00:00:00+03:00'
+    log to console  ${planData}
 
+
+    ${buyers_identifier_id}=                  Get From Dictionary  ${planData.data.buyers[0].identifier}  id
+    ${buyers_identifier_legalName}=           Get From Dictionary  ${planData.data.buyers[0].identifier}  legalName
+    ${buyers_identifier_scheme}=              Get From Dictionary  ${planData.data.buyers[0].identifier}  scheme
+    ${buyers_name}=                           Get From Dictionary  ${planData.data.buyers[0]}  name
     ${budget_amount}=                         Get From Dictionary  ${planData.data.budget}  amount
     ${budget_amountNet}=                      Get From Dictionary  ${planData.data.budget}  amountNet
     ${budget_currency}=                       Get From Dictionary  ${planData.data.budget}  currency
@@ -1179,16 +1107,89 @@ Login
     ${classification_description}=            Get From Dictionary  ${planData.data.classification}  description
     ${classification_id}=                     Get From Dictionary  ${planData.data.classification}  id
     ${classification_scheme}=                 Get From Dictionary  ${planData.data.classification}  scheme
-    ${additionalClassifications}=             Get From Dictionary  ${planData.data}  additionalClassifications
+    ###${additionalClassifications}=             Get From Dictionary  ${planData.data}  additionalClassifications
     ${items}=                                 Get From Dictionary  ${planData.data}  items
     ${procuringEntity_name}=                  Get From Dictionary  ${planData.data.procuringEntity}  name
-    ${procuringEntity_identifier_id}=         Get From Dictionary  ${planData.data.procuringEntity.identifier} id
+    ${procuringEntity_identifier_id}=         Get From Dictionary  ${planData.data.procuringEntity.identifier}  id
     ${procuringEntity_identifier_legalName}=  Get From Dictionary  ${planData.data.procuringEntity.identifier}  legalName
     ${procuringEntity_identifier_scheme}=     Get From Dictionary  ${planData.data.procuringEntity.identifier}  scheme
     ${tender_procurementMethod}=              Get From Dictionary  ${planData.data.tender}  procurementMethod
     ${tender_procurementMethodType}=          Get From Dictionary  ${planData.data.tender}  procurementMethodType
     ${tender_tenderPeriod_startDate}=         Get From Dictionary  ${planData.data.tender.tenderPeriod}  startDate
 
+
+    ${budget_amount}=            Convert To String  ${budget_amount}
+    ${budget_amountNet}=         Convert To String  ${budget_amountNet}
+
+
+    Go to   ${USERS.users['${userName}'].homepage}
+    Sleep   2
+    Click Element       xpath=//a[contains(@id, 'planpage_btn')]
+    Sleep   4
+    Click Element       xpath=//a[contains(@id, 'addplanbtn')]
+    Sleep   4
+
+    Input Text  id=addplanform-buyers_identifier_id                  ${buyers_identifier_id}
+    Input Text  id=addplanform-buyers_identifier_legalname           ${buyers_identifier_legalName}
+    Input Text  id=addplanform-buyers_identifier_scheme              ${buyers_identifier_scheme}
+    Input Text  id=addplanform-buyers_name                           ${buyers_name}
+    Input Text  id=addplanform-budget_amount                         ${budget_amount}
+    Input Text  id=addplanform-budget_amountnet                      ${budget_amountNet}
+    Input Text  id=addplanform-budget_currency                       ${budget_currency}
+    Input Text  id=addplanform-budget_description                    ${budget_description}
+    Input Text  id=addplanform-budget_id                             ${budget_id}
+    Input Text  id=addplanform-budget_project_id                     ${budget_project_id}
+    Input Text  id=addplanform-budget_project_name                   ${budget_project_name}
+    Input Text  id=addplanform-classification_id                     ${classification_id}
+    Input Text  id=addplanform-procuringentity_name                  ${procuringEntity_name}
+    Input Text  id=addplanform-procuringentity_identifier_id         ${procuringEntity_identifier_id}
+    Input Text  id=addplanform-procuringentity_identifier_legalname  ${procuringEntity_identifier_legalName}
+    Input Text  id=addplanform-procuringentity_identifier_scheme     ${procuringEntity_identifier_scheme}
+    Input Text  id=addplanform-tender_procurementmethod              ${tender_procurementMethod}
+    Input Text  id=addplanform-tender_procurementmethodtype          ${tender_procurementMethodType}
+    Input Text  id=addplanform-tender_tenderperiod_startdate         ${tender_tenderPeriod_startDate}
+
+    polonex.Додати предмети      ${items}
+
+    Click Element   xpath=//button[contains(@id, 'add-plan-form-save')]
+    Wait Until Element Is Visible       xpath=//td[contains(@id, 'plan_id')]   30
+
+    ${plan_id}=     Get Text        xpath=//td[contains(@id, 'plan_id')]
+    [Return]    ${plan_id}
+
+Додати предмети
+    [Arguments]  ${items}
+    ${Items_length}=   Get Length   ${items}
+    :FOR   ${index}   IN RANGE   ${Items_length}
+    \   polonex.Додати предмет   ${items[${index}]}     ${index}
+
+Додати предмет
+    [Arguments]  ${item}  ${index}
+    ${index}=  Convert To Integer  ${index}
+    Run Keyword If  ${index} != 0   Click Element   id=additem
+    Run Keyword If  ${index} != 0   Sleep           4
+
+    ${quantity}=  Convert To String  ${item.quantity}
+    ${date}=   polonex_convertdate   ${item.deliveryDate.endDate}
+
+    Input text  id=addtenderitemsform-${index}-description  ${item.description}
+    Input text  id=addtenderitemsform-${index}-description_ru  ${item.description_ru}
+    Input text  id=addtenderitemsform-${index}-description_en  ${item.description_en}
+    Input text  id=addtenderitemsform-${index}-classification_id  ${item.classification.id}
+    ###Input text  id=addtenderitemsform-${index}-additionalClassifications_DKPP_id  ${item.additionalClassifications[0].id}
+    Select From List  id=addtenderitemsform-${index}-unit_code  ${item.unit.code}
+    Input text  id=addtenderitemsform-${index}-quantity  ${quantity}
+    Input text  id=addtenderitemsform-${index}-deliverydate_enddate  ${date}
+
+    ###Input text  id=addtenderitemsform-${index}-deliveryDate_startDate
+    ###Input text  id=addtenderitemsform-${index}-deliveryAddress_streetAddress
+    ###Input text  id=addtenderitemsform-${index}-deliveryAddress_locality
+    ###Input text  id=addtenderitemsform-${index}-deliveryAddress_region
+    ###Input text  id=addtenderitemsform-${index}-deliveryAddress_postalCode
+    ###Input text  id=addtenderitemsform-${index}-deliveryAddress_countryName
+    ###Input text  id=addtenderitemsform-${index}-deliveryLocation_latitude
+    ###Input text  id=addtenderitemsform-${index}-deliveryLocation_longitude
+    ###Input text  id=addtenderitemsform-${index}-deliveryLocation_elevation
 
 Отримати інформацію із плану
   [Arguments]  ${userName}  ${planId}  ${fieldName}
